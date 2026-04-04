@@ -1,1 +1,25 @@
-/* You can add global styles to this file, and also import other style files */
+@use './app/pages/calculator/calculator';
+
+:root {
+  --bg-main: #0a0c0e; /* Fundo principal bem escuro */
+  --bg-surface: #121517; /* Fundo dos cards/seções */
+  --bg-input: #050607; /* Fundo dos inputs */
+  --border-color: #21262a; /* Bordas sutis */
+  --accent-green: #37f17b; /* Verde neon de destaque */
+  --text-primary: #ffffff; /* Texto principal */
+  --text-secondary: #8b949e; /* Texto secundário/labels */
+  --font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
