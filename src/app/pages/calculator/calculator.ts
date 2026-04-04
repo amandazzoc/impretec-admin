@@ -4,27 +4,26 @@ import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Pricing } from '../../services/pricing';
 
-// Decorator to define this class as an Angular component, which can be used in the application
+// Decorator para definir esta classe como um componente Angular, que pode ser usado na aplicação
 @Component({
-  selector: 'app-calculator', // The selector is the HTML tag that will be used to include this component in other parts of the application
-  standalone: true, // This means that the component is self-contained and does not require a module to be declared in order to be used
-  imports: [CommonModule, ReactiveFormsModule], // These are the modules that this component depends on. CommonModule provides common directives like ngIf and ngFor, while ReactiveFormsModule provides support for reactive forms
-  templateUrl: './calculator.html', // The path to the HTML template that defines the view for this component
-  styleUrl: './calculator.scss', // The path to the SCSS file that defines the styles for this component
+  selector: 'app-calculator', // O seletor é o nome da tag HTML que será usada para incluir este componente em outros templates
+  standalone: true, // Isso indica que este componente é independente e não precisa ser declarado em um módulo Angular, o que simplifica a estrutura do projeto
+  imports: [CommonModule, ReactiveFormsModule], // Esses são os módulos que este componente precisa para funcionar, como CommonModule para diretivas comuns e ReactiveFormsModule para trabalhar com formulários reativos
+  templateUrl: './calculator.html', // O caminho para o template HTML que define a visualização para este componente
+  styleUrl: './calculator.scss', // O caminho para o arquivo SCSS que define os estilos para este componente
 })
 export class Calculator {
-  // Injecting the Pricing service into the component's constructor, which allows us to use the service's methods in this component
+  // Injeção de dependência para o serviço de precificação, que será usado para realizar os cálculos com base nos dados do formulário
   private readonly pricingService = inject(Pricing);
 
-  // Signal to hold the result of the calculation, which can be used in the template to display the results
-  // Comparado com o useState do React, o signal é uma forma de armazenar e gerenciar o estado em um componente Angular
+  // Signal para armazenar o resultado do cálculo, que é um objeto do tipo ResultCalculation. O signal é uma forma reativa de armazenar dados, e quando o valor do signal é atualizado, a interface do usuário que depende desse valor será automaticamente atualizada para refletir as mudanças.
   readonly result = signal<ResultCalculation>({
     costProduction: 0,
     suggestedPrice: 0,
     profit: 0,
   })
 
-  // Create reactive form with default values
+  // Cria um formulário reativo com valores padrões
   readonly form = new FormGroup({
     // FormControl é usado para criar um controle de formulário individual, que pode ser usado para capturar e validar a entrada do usuário
     timeHours: new FormControl(0, { nonNullable: true }),
@@ -40,22 +39,23 @@ export class Calculator {
     costHourPaint: new FormControl(10, { nonNullable: true }),
   })
 
-  // Method to perform the calculation when the form is submitted
+  // Metodo para realizar o cálculo quando o formulário é enviado
   constructor() {
-    this.updateResult(); // Initial calculation with default values
+    this.updateResult(); // Inicializa o resultado com os valores padrões do formulário
 
     // Subscribe to form value changes to update the result whenever the user changes any input
+    // .subscribe() é usado para ouvir as mudanças no formulário, e toda vez que o formulário é atualizado, a função dentro do subscribe é chamada, que por sua vez chama o método updateResult para recalcular os resultados com base nos novos valores do formulário
     this.form.valueChanges.subscribe(() => {
       this.updateResult();
     });
   }
 
   private updateResult() {
-    // getRawValue() get the current value of the form
+    // getRawValue() pega o valor atual do formulário, mesmo que ele esteja desabilitado, e retorna um objeto com os valores de cada controle do formulário. Esses valores são então passados para o método calculate do serviço de precificação para obter os novos resultados com base nos dados do formulário
     const data = this.form.getRawValue();
     const newResult = this.pricingService.calculate(data);
 
-    // Update the signal with the new result, which will trigger an update in the template to display the new results
+    // Atualiza o signal com o novo resultado, o que acionará uma atualização no template para exibir os novos resultados
     this.result.set(newResult);
   }
 }

@@ -20,9 +20,10 @@ export interface ResultCalculation {
   profit: number,
 }
 
-// Decorator to make this service available to be used in other parts of the application
+// Decorator para tornar este serviço disponível para ser usado em outras partes da aplicação
 @Injectable({
-  providedIn: 'root', // This means that the service will be a singleton and can be injected into any component or service in the application
+  // Isso significa que o serviço será um singleton e pode ser injetado em qualquer componente ou serviço na aplicação
+  providedIn: 'root',
 })
 export class Pricing {
   private readonly PRINTER_VALUE = 4500;
@@ -31,7 +32,8 @@ export class Pricing {
 
   private readonly PAINTING_MATERIAL_FEE = 5;
 
-  constructor() {} // The constructor is empty because we don't need to inject any dependencies for this service
+  // O construtor é vazio porque não precisamos injetar nenhuma dependência para este serviço
+  constructor() {}
 
   calculate(data: Data): ResultCalculation {
     const costMaterial = (data.filamentCostPerKg / 1000) * data.weightG;
@@ -40,7 +42,8 @@ export class Pricing {
 
     const costPrinting = costMaterial + costEnergy + costAmortization + data.packagingCost;
 
-    const costWithRisk = data.riskFailure ? costPrinting * 1.2 : costPrinting; // Adding 20% if there's a risk of failure
+    // Adiciona um custo extra de 20% se houver risco de falha, para cobrir possíveis perdas e retrabalhos
+    const costWithRisk = data.riskFailure ? costPrinting * 1.2 : costPrinting;
 
     const costPainting = data.needPaint ? (data.hoursPaint * data.costHourPaint) : 0;
     const costMaterialPainting = data.needPaint ? this.PAINTING_MATERIAL_FEE : 0;
@@ -50,7 +53,8 @@ export class Pricing {
 
     const priceWithProfit = costProduction + (costProduction * (data.profitMargin / 100));
     
-    const priceSuggested = data.needPaint ? priceWithProfit * 1.5 : priceWithProfit; // Adding 15% if painting is needed
+    // Adiciona um markup de 50% ao preço com lucro se o item precisar de pintura, para cobrir os custos adicionais e o valor percebido do produto finalizado
+    const priceSuggested = data.needPaint ? priceWithProfit * 1.5 : priceWithProfit;
 
     return {
       costProduction: parseFloat(costProduction.toFixed(2)),
