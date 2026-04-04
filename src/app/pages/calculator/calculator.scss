@@ -1,0 +1,233 @@
+/* --- COMPONENT STYLES --- */
+
+.calculator-container {
+  padding: 2.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  header {
+    margin-bottom: 2.5rem;
+
+    h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0 0 0.5rem 0;
+      color: var(--text-primary);
+    }
+
+    p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+  }
+
+  .grid-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    /* No desktop, divide em duas colunas (Formulário maior, Resumo menor) */
+    @media (min-width: 992px) {
+      grid-template-columns: 2fr 1fr;
+    }
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .fields-group {
+    background-color: var(--bg-surface);
+    padding: 1.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+
+    div {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    h3 {
+      display: flex;
+      align-items: center;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      /* Detalhe da barra vertical verde ao lado do título (como na referência) */
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 4px;
+        height: 16px;
+        background-color: var(--accent-green);
+        margin-right: 12px;
+        border-radius: 2px;
+      }
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      width: 100%;
+
+      input[type="number"],
+      input[type="text"] {
+        margin-top: 0.6rem;
+        background-color: var(--bg-input);
+        border: 1px solid transparent; /* Sem borda até o focus, ou use var(--border-color) */
+        color: var(--text-primary);
+        padding: 0.9rem 1rem;
+        border-radius: 6px;
+        font-size: 1rem;
+        font-family: var(--font-family);
+        font-weight: 500;
+        transition: all 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--accent-green);
+          box-shadow: 0 0 0 1px rgba(55, 241, 123, 0.2);
+        }
+        
+        /* Remove setinhas padrão do input number para ficar mais clean */
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+        &[type=number] {
+          appearance: textfield;
+          -moz-appearance: textfield;
+        }
+      }
+    }
+
+    /* Estilização específica para checkboxes */
+    .checkbox-label {
+      flex-direction: row;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      text-transform: none;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      font-weight: 400;
+
+      input[type="checkbox"] {
+        appearance: none;
+        background-color: var(--bg-input);
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        display: grid;
+        place-content: center;
+        transition: all 0.2s ease;
+
+        &::before {
+          content: "";
+          width: 10px;
+          height: 10px;
+          transform: scale(0);
+          transition: 120ms transform ease-in-out;
+          box-shadow: inset 1em 1em var(--bg-main);
+          background-color: var(--bg-main);
+          transform-origin: center;
+          clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+        }
+
+        &:checked {
+          background-color: var(--accent-green);
+          border-color: var(--accent-green);
+          
+          &::before {
+            transform: scale(1);
+          }
+        }
+      }
+    }
+
+    /* Campos condicionais da pintura */
+    .extra-fields {
+      margin: 1.5rem 0;
+      padding-top: 1.5rem;
+      padding-left: 1rem;
+      border-top: 1px dashed var(--border-color);
+      border-left: 2px solid var(--accent-green);
+    }
+  }
+
+  .result-container {
+    background-color: var(--bg-surface);
+    padding: 1.8rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 0.5rem 0;
+    }
+
+    .card-value {
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+      background-color: var(--bg-input);
+      border-radius: 6px;
+      border: 1px solid transparent;
+
+      span {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.8rem;
+        font-weight: 600;
+      }
+
+      strong {
+        font-size: 1.8rem;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+
+      &.constrast {
+        border-color: var(--border-color);
+        background: linear-gradient(180deg, rgba(55, 241, 123, 0.03) 0%, var(--bg-input) 100%);
+        border-top: 2px solid var(--accent-green);
+
+        span {
+          color: var(--accent-green);
+        }
+
+        strong {
+          font-size: 2.5rem;
+          color: var(--text-primary);
+        }
+      }
+    }
+  }
+}
