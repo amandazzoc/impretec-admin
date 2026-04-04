@@ -46,6 +46,11 @@
     div {
         display: flex;
         gap: 1.5rem;
+        flex-direction: column;
+
+        @media (min-width: 992px) {
+          flex-direction: row;
+        }
     }
 
     h3 {
