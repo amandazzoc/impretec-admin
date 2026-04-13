@@ -1,0 +1,74 @@
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  /* Usando o fundo escuro do tema e substituindo a sombra por uma borda sutil */
+  background-color: var(--bg-main);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+
+  .logo-container {
+    padding: 0 24px 32px;
+    margin-bottom: 16px;
+
+    h2 {
+      margin: 0;
+      color: var(--accent-green); /* Título em verde neon */
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    p {
+      margin: 6px 0 0;
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 16px;
+
+    .menu-item {
+      text-decoration: none;
+      color: var(--text-secondary);
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      position: relative; /* Necessário para posicionar o indicador lateral */
+
+      &:hover {
+        background-color: var(--bg-surface);
+        color: var(--text-primary);
+      }
+
+      /* Estilo da classe ativa do Angular, baseado na imagem de referência */
+      &.active {
+        background-color: var(--bg-surface); /* Fundo um pouco mais claro */
+        color: var(--accent-green); /* Texto verde */
+        
+        /* Detalhe: Barra vertical verde na extremidade esquerda */
+        &::before {
+          content: '';
+          position: absolute;
+          left: -16px; /* Compensa o padding da div .menu */
+          top: 15%;
+          height: 70%;
+          width: 3px;
+          background-color: var(--accent-green);
+          border-radius: 0 4px 4px 0;
+        }
+      }
+    }
+  }
+}
