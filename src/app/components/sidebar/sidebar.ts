@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -8,4 +8,14 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.scss',
 })
-export class Sidebar {}
+export class Sidebar {
+    readonly isOpen = signal(false); // Signal to track the open/closed state of the sidebar
+
+    readonly toggleSidebar = () => {
+        this.isOpen.update((isOpen) => !isOpen);
+    };
+
+    readonly closeSidebar = () => {
+        this.isOpen.set(false);
+    }
+}
