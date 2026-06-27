@@ -1,99 +1,125 @@
-<div class="calculator-container">
-    <header>
-        <h2>Orçamento Rápido</h2>
-        <p>Calcule os custos de produção e o preço final da peça</p>
-    </header>
+<div class="content-wrapper">
+  <header class="page-header">
+    <h1>Orçamento Rápido</h1>
+    <p>Calcule os custos de produção e o preço final da peça</p>
+  </header>
 
-    <div class="grid-layout">
-        <form [formGroup]="form" class="form">
-            <section class="fields-group">
-                <h3>Dados da peça</h3>
-                <div>
-                    <label>
-                        Tempo de Impressão (horas):
-                        <input type="number" formControlName="timeHours" min="0" step="0.1" />
-                    </label>
-    
-                    <label>
-                        Peso do Filamento (g):
-                        <input type="number" formControlName="weightG" min="0" step="0.1" />
-                    </label>
-    
-                    <label>
-                        Custo do Rolo 1kg (R$):
-                        <input type="number" formControlName="filamentCostPerKg" min="0" step="0.01" />
-                    </label>
-                </div>
-            </section>
+  <div class="page-grid">
+    <form [formGroup]="form" class="main-column">
+      <section class="card">
+        <h3 class="card-title"><span class="bar"></span>Dados da peça</h3>
 
-            <section class="fields-group">
-                <h3>Material e Energia</h3>
-                <div>
-                    <label>
-                        Valor da Embalagem (R$):
-                        <input type="number" formControlName="packagingCost" min="0" step="0.01" />
-                    </label>    
-                </div>
+        <div class="fields-row">
+          <div class="field">
+            <label for="timeHours">Tempo de impressão (horas):</label>
+            <input id="timeHours" type="number" formControlName="timeHours" min="0" step="0.1" />
+          </div>
 
-                <div>
-                    <label>
-                        Potência da Impressora (kW):
-                        <input type="number" formControlName="printerPowerW" min="0" step="0.01" />
-                    </label>
-    
-                    <label>
-                       Custo da Energia (R$/kWh):
-                        <input type="number" formControlName="kwhCost" min="0" step="0.01" />
-                    </label>
-                </div>
-            </section>
+          <div class="field">
+            <label for="weightG">Peso do filamento (g):</label>
+            <input id="weightG" type="number" formControlName="weightG" min="0" step="0.1" />
+          </div>
 
-            <section class="fields-group">
-                <h3>Acabamento e Riscos</h3>
-                <label class="checkbox-label">
-                    <input type="checkbox" formControlName="needPaint" />
-                    Peça precisa de pintura?
-                </label>
+          <div class="field">
+            <label for="filamentCostPerKg">Custo do rolo 1kg (R$):</label>
+            <input
+              id="filamentCostPerKg"
+              type="number"
+              formControlName="filamentCostPerKg"
+              min="0"
+              step="0.01"
+            />
+          </div>
+        </div>
+      </section>
 
-                @if (form.get('needPaint')?.value) {
-                    <div class="extra-fields">
-                        <label>
-                            Tempo de Pintura (Horas):
-                            <input type="number" formControlName="hoursPaint" />
-                        </label>
-                        <label>
-                            Valor da Hora de Pintura (R$):
-                            <input type="number" formControlName="costHourPaint" />
-                        </label>
-                    </div>
-                }
+      <section class="card">
+        <h3 class="card-title"><span class="bar"></span>Material e energia</h3>
 
-                <label class="checkbox-label">
-                    <input type="checkbox" formControlName="riskFailure" />
-                    Risco alto de falha? (+20% custo)
-                </label>
-            </section>
+        <div class="fields-row">
+          <div class="field field-full">
+            <label for="packagingCost">Valor da embalagem (R$):</label>
+            <input
+              id="packagingCost"
+              type="number"
+              formControlName="packagingCost"
+              min="0"
+              step="0.01"
+            />
+          </div>
+        </div>
 
-            <section class="fields-group">
-                <h3>Negócio</h3>
-                <label>
-                    Margem de Lucro (%):
-                    <input type="number" formControlName="profitMargin" />
-                </label>
-            </section>
-        </form>
+        <div class="fields-row">
+          <div class="field">
+            <label for="printerPowerW">Potência da impressora (kW):</label>
+            <input
+              id="printerPowerW"
+              type="number"
+              formControlName="printerPowerW"
+              min="0"
+              step="0.01"
+            />
+          </div>
 
-        <aside class="result-container">
-            <h3>Resumo do Orçamento</h3>
-            <div class="card-value">
-                <span>Custo Total de Produção:</span>
-                <strong>R$ {{ result().costProduction }}</strong>
+          <div class="field">
+            <label for="kwhCost">Custo da energia (R$/kWh):</label>
+            <input id="kwhCost" type="number" formControlName="kwhCost" min="0" step="0.01" />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title"><span class="bar"></span>Acabamento e riscos</h3>
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="needPaint" />
+          Peça precisa de pintura?
+        </label>
+
+        @if (form.get('needPaint')?.value) {
+          <div class="fields-row">
+            <div class="field">
+              <label for="hoursPaint">Tempo de pintura (horas):</label>
+              <input id="hoursPaint" type="number" formControlName="hoursPaint" />
             </div>
 
-            <div class="card-value constrast">
-                <span>Preço de Venda Sugerido:</span>
-                <strong>R$ {{ result().suggestedPrice }}</strong>
+            <div class="field">
+              <label for="costHourPaint">Valor da hora de pintura (R$):</label>
+              <input id="costHourPaint" type="number" formControlName="costHourPaint" />
             </div>
-        </aside>
-    </div>
+          </div>
+        }
+
+        <label class="checkbox-field">
+          <input type="checkbox" formControlName="riskFailure" />
+          Risco alto de falha? (+20% custo)
+        </label>
+      </section>
+
+      <section class="card">
+        <h3 class="card-title"><span class="bar"></span>Negócio</h3>
+
+        <div class="fields-row">
+          <div class="field field-full">
+            <label for="profitMargin">Margem de lucro (%):</label>
+            <input id="profitMargin" type="number" formControlName="profitMargin" />
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <aside class="summary-column">
+      <h2 class="summary-title">Resumo do orçamento</h2>
+
+      <div class="summary-card">
+        <p class="summary-label">Custo total de produção:</p>
+        <p class="summary-value">R$ {{ result().costProduction }}</p>
+      </div>
+
+      <div class="summary-card summary-card--highlight">
+        <p class="summary-label">Preço de venda sugerido:</p>
+        <p class="summary-value">R$ {{ result().suggestedPrice }}</p>
+      </div>
+    </aside>
+  </div>
 </div>
