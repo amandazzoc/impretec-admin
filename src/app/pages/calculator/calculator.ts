@@ -3,12 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Pricing } from '../../services/pricing';
+import { SummaryCard } from '../../components/summary-card/summary-card';
+import { CheckboxField } from '../../components/checkbox-field/checkbox-field';
+import { FormField } from '../../components/form-field/form-field';
+import { Card } from '../../components/card/card';
 
 // Decorator para definir esta classe como um componente Angular, que pode ser usado na aplicação
 @Component({
   selector: 'app-calculator', // O seletor é o nome da tag HTML que será usada para incluir este componente em outros templates
   standalone: true, // Isso indica que este componente é independente e não precisa ser declarado em um módulo Angular, o que simplifica a estrutura do projeto
-  imports: [CommonModule, ReactiveFormsModule], // Esses são os módulos que este componente precisa para funcionar, como CommonModule para diretivas comuns e ReactiveFormsModule para trabalhar com formulários reativos
+  imports: [CommonModule, ReactiveFormsModule, Card, FormField, CheckboxField, SummaryCard], // Esses são os módulos que este componente precisa para funcionar, como CommonModule para diretivas comuns e ReactiveFormsModule para trabalhar com formulários reativos
   templateUrl: './calculator.html', // O caminho para o template HTML que define a visualização para este componente
   styleUrl: './calculator.scss', // O caminho para o arquivo SCSS que define os estilos para este componente
 })
@@ -21,7 +25,7 @@ export class Calculator {
     costProduction: 0,
     suggestedPrice: 0,
     profit: 0,
-  })
+  });
 
   // Cria um formulário reativo com valores padrões
   readonly form = new FormGroup({
@@ -37,7 +41,7 @@ export class Calculator {
     needPaint: new FormControl(false, { nonNullable: true }),
     hoursPaint: new FormControl(2, { nonNullable: true }),
     costHourPaint: new FormControl(10, { nonNullable: true }),
-  })
+  });
 
   // Metodo para realizar o cálculo quando o formulário é enviado
   constructor() {

@@ -6,117 +6,86 @@
 
   <div class="page-grid">
     <div class="main-column">
-      <section class="card">
-        <h2 class="card-title"><span class="bar"></span>Dados do pedido</h2>
-
+      <app-card title="Dados do pedido">
         <div class="fields-row">
-          <div class="field">
-            <label for="clientName">Nome do cliente:</label>
+          <app-form-field label="Nome do cliente:">
             <input
-              id="clientName"
               type="text"
               [ngModel]="clientName()"
               (ngModelChange)="clientName.set($event)"
               placeholder="Ex: João Silva"
             />
-          </div>
+          </app-form-field>
 
-          <div class="field">
-            <label for="deadline">Prazo:</label>
-            <input id="deadline" type="date" [ngModel]="deadline()" (ngModelChange)="deadline.set($event)" />
-          </div>
+          <app-form-field label="Prazo:">
+            <input type="date" [ngModel]="deadline()" (ngModelChange)="deadline.set($event)" />
+          </app-form-field>
         </div>
-      </section>
+      </app-card>
 
-      <section class="card">
-        <h2 class="card-title"><span class="bar"></span>Itens do pedido</h2>
-
+      <app-card title="Itens do pedido">
         <div class="fields-row">
-          <div class="field field-full">
-            <label for="descriptionItem">Descrição:</label>
+          <app-form-field label="Descrição:" [fullWidth]="true">
             <input
-              id="descriptionItem"
               type="text"
               [ngModel]="descriptionItem()"
               (ngModelChange)="descriptionItem.set($event)"
               placeholder="Ex: Suporte de celular"
             />
-          </div>
+          </app-form-field>
         </div>
 
         <div class="fields-row">
-          <div class="field">
-            <label for="priceItem">Valor (R$):</label>
+          <app-form-field label="Valor (R$):">
             <input
-              id="priceItem"
               type="number"
               min="0"
               step="0.01"
               [ngModel]="priceItem()"
               (ngModelChange)="priceItem.set($event)"
             />
-          </div>
+          </app-form-field>
 
-          <div class="field">
-            <label for="quantityItem">Quantidade:</label>
+          <app-form-field label="Quantidade:">
             <input
-              id="quantityItem"
               type="number"
               min="1"
               step="1"
               [ngModel]="quantityItem()"
               (ngModelChange)="quantityItem.set($event)"
             />
-          </div>
+          </app-form-field>
 
-          <div class="field">
-            <label for="observationsItem">Observação:</label>
+          <app-form-field label="Observação:">
             <input
-              id="observationsItem"
               type="text"
               [ngModel]="observationsItem()"
               (ngModelChange)="observationsItem.set($event)"
               placeholder="Opcional"
             />
-          </div>
+          </app-form-field>
         </div>
 
-        <button type="button" class="add-button" [disabled]="!canAddItem()" (click)="handleAddItem()">
+        <app-button variant="outline" [disabled]="!canAddItem()" (clicked)="handleAddItem()">
           + Adicionar ao pedido
-        </button>
+        </app-button>
 
         <div class="itens-wrapper">
           <app-order-items [items]="items()" (removeItem)="handleRemoveItem($event)" />
         </div>
-      </section>
+      </app-card>
     </div>
 
     <aside class="summary-column">
       <h2 class="summary-title">Resumo do pedido</h2>
 
-      <div class="summary-card">
-        <p class="summary-label">Quantidade total de itens:</p>
-        <p class="summary-value">{{ totalQuantity() }}</p>
-      </div>
+      <app-summary-card label="Quantidade total de itens:" [value]="totalQuantity().toString()" />
 
-      <div class="summary-card summary-card--highlight">
-        <p class="summary-label">Valor total do pedido:</p>
-        <p class="summary-value">{{ totalPriceFormatted() }}</p>
-      </div>
+      <app-summary-card label="Valor total do pedido:" [value]="totalPriceFormatted()" [highlight]="true" />
 
-      <button
-        type="button"
-        class="save-button"
-        [disabled]="!canSubmitOrder() || isLoading()"
-        (click)="handleSubmitOrder()"
-      >
-        @if (isLoading()) {
-          Salvando...
-        }
-        @if (!isLoading()) {
-          Salvar pedido
-        }
-      </button>
+      <app-button [isLoading]="isLoading()" [disabled]="!canSubmitOrder()" (clicked)="handleSubmitOrder()">
+        Salvar pedido
+      </app-button>
     </aside>
   </div>
 </div>

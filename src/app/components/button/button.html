@@ -1,0 +1,14 @@
+<button
+  type="button"
+  class="btn"
+  [class.btn--outline]="variant() === 'outline'"
+  [disabled]="disabled() || isLoading()"
+  (click)="handleClick()"
+>
+  @if (isLoading()) {
+    {{ loadingLabel() }}
+  }
+  @if (!isLoading()) {
+    <ng-content />
+  }
+</button>

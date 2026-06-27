@@ -6,120 +6,81 @@
 
   <div class="page-grid">
     <form [formGroup]="form" class="main-column">
-      <section class="card">
-        <h3 class="card-title"><span class="bar"></span>Dados da peça</h3>
-
+      <app-card title="Dados da peça">
         <div class="fields-row">
-          <div class="field">
-            <label for="timeHours">Tempo de impressão (horas):</label>
-            <input id="timeHours" type="number" formControlName="timeHours" min="0" step="0.1" />
-          </div>
+          <app-form-field label="Tempo de impressão (horas):">
+            <input type="number" formControlName="timeHours" min="0" step="0.1" />
+          </app-form-field>
 
-          <div class="field">
-            <label for="weightG">Peso do filamento (g):</label>
-            <input id="weightG" type="number" formControlName="weightG" min="0" step="0.1" />
-          </div>
+          <app-form-field label="Peso do filamento (g):">
+            <input type="number" formControlName="weightG" min="0" step="0.1" />
+          </app-form-field>
 
-          <div class="field">
-            <label for="filamentCostPerKg">Custo do rolo 1kg (R$):</label>
-            <input
-              id="filamentCostPerKg"
-              type="number"
-              formControlName="filamentCostPerKg"
-              min="0"
-              step="0.01"
-            />
-          </div>
+          <app-form-field label="Custo do rolo 1kg (R$):">
+            <input type="number" formControlName="filamentCostPerKg" min="0" step="0.01" />
+          </app-form-field>
         </div>
-      </section>
+      </app-card>
 
-      <section class="card">
-        <h3 class="card-title"><span class="bar"></span>Material e energia</h3>
-
+      <app-card title="Material e energia">
         <div class="fields-row">
-          <div class="field field-full">
-            <label for="packagingCost">Valor da embalagem (R$):</label>
-            <input
-              id="packagingCost"
-              type="number"
-              formControlName="packagingCost"
-              min="0"
-              step="0.01"
-            />
-          </div>
+          <app-form-field label="Valor da embalagem (R$):" [fullWidth]="true">
+            <input type="number" formControlName="packagingCost" min="0" step="0.01" />
+          </app-form-field>
         </div>
 
         <div class="fields-row">
-          <div class="field">
-            <label for="printerPowerW">Potência da impressora (kW):</label>
-            <input
-              id="printerPowerW"
-              type="number"
-              formControlName="printerPowerW"
-              min="0"
-              step="0.01"
-            />
-          </div>
+          <app-form-field label="Potência da impressora (kW):">
+            <input type="number" formControlName="printerPowerW" min="0" step="0.01" />
+          </app-form-field>
 
-          <div class="field">
-            <label for="kwhCost">Custo da energia (R$/kWh):</label>
-            <input id="kwhCost" type="number" formControlName="kwhCost" min="0" step="0.01" />
-          </div>
+          <app-form-field label="Custo da energia (R$/kWh):">
+            <input type="number" formControlName="kwhCost" min="0" step="0.01" />
+          </app-form-field>
         </div>
-      </section>
+      </app-card>
 
-      <section class="card">
-        <h3 class="card-title"><span class="bar"></span>Acabamento e riscos</h3>
-
-        <label class="checkbox-field">
+      <app-card title="Acabamento e riscos">
+        <app-checkbox-field label="Peça precisa de pintura?">
           <input type="checkbox" formControlName="needPaint" />
-          Peça precisa de pintura?
-        </label>
+        </app-checkbox-field>
 
         @if (form.get('needPaint')?.value) {
           <div class="fields-row">
-            <div class="field">
-              <label for="hoursPaint">Tempo de pintura (horas):</label>
-              <input id="hoursPaint" type="number" formControlName="hoursPaint" />
-            </div>
+            <app-form-field label="Tempo de pintura (horas):">
+              <input type="number" formControlName="hoursPaint" />
+            </app-form-field>
 
-            <div class="field">
-              <label for="costHourPaint">Valor da hora de pintura (R$):</label>
-              <input id="costHourPaint" type="number" formControlName="costHourPaint" />
-            </div>
+            <app-form-field label="Valor da hora de pintura (R$):">
+              <input type="number" formControlName="costHourPaint" />
+            </app-form-field>
           </div>
         }
 
-        <label class="checkbox-field">
+        <app-checkbox-field label="Risco alto de falha? (+20% custo)">
           <input type="checkbox" formControlName="riskFailure" />
-          Risco alto de falha? (+20% custo)
-        </label>
-      </section>
+        </app-checkbox-field>
+      </app-card>
 
-      <section class="card">
-        <h3 class="card-title"><span class="bar"></span>Negócio</h3>
-
+      <app-card title="Negócio">
         <div class="fields-row">
-          <div class="field field-full">
-            <label for="profitMargin">Margem de lucro (%):</label>
-            <input id="profitMargin" type="number" formControlName="profitMargin" />
-          </div>
+          <app-form-field label="Margem de lucro (%):" [fullWidth]="true">
+            <input type="number" formControlName="profitMargin" />
+          </app-form-field>
         </div>
-      </section>
+      </app-card>
     </form>
 
     <aside class="summary-column">
       <h2 class="summary-title">Resumo do orçamento</h2>
 
-      <div class="summary-card">
-        <p class="summary-label">Custo total de produção:</p>
-        <p class="summary-value">R$ {{ result().costProduction }}</p>
-      </div>
+      <app-summary-card label="Custo total de produção:" [value]="'R$ ' + result().costProduction" />
 
-      <div class="summary-card summary-card--highlight">
-        <p class="summary-label">Preço de venda sugerido:</p>
-        <p class="summary-value">R$ {{ result().suggestedPrice }}</p>
-      </div>
+      <app-summary-card
+        label="Preço de venda sugerido:"
+        [value]="'R$ ' + result().suggestedPrice"
+        [highlight]="true"
+      />
     </aside>
   </div>
 </div>

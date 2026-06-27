@@ -10,11 +10,15 @@ import {
   isOrderValid,
 } from '../../helpers/order.helpers';
 import { OrderItem } from '../../types/order.type';
+import { SummaryCard } from '../../components/summary-card/summary-card';
+import { Button } from '../../components/button/button';
+import { FormField } from '../../components/form-field/form-field';
+import { Card } from '../../components/card/card';
 
 @Component({
   selector: 'app-new-order',
   standalone: true,
-  imports: [FormsModule, OrderItems],
+  imports: [FormsModule, OrderItems, Card, FormField, Button, SummaryCard],
   templateUrl: './new-order.html',
   styleUrl: './new-order.scss',
 })
