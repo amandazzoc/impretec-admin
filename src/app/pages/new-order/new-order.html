@@ -1,1 +1,132 @@
-<p>novo-pedido works!</p>
+<div class="new-order">
+  <header class="page-header">
+    <h1>Novo pedido</h1>
+    <p>Cadastre os dados do cliente e adicione os itens do pedido</p>
+  </header>
+
+  <div class="content-grid">
+    <div class="main-column">
+      <section class="card">
+        <h2 class="card-title"><span class="bar"></span>Dados do pedido</h2>
+
+        <div class="fields-row">
+          <div class="field">
+            <label for="clientName">Nome do cliente:</label>
+            <input
+              id="clientName"
+              type="text"
+              [ngModel]="clientName()"
+              (ngModelChange)="clientName.set($event)"
+              placeholder="Ex: João Silva"
+            />
+          </div>
+
+          <div class="field">
+            <label for="deadline">Prazo:</label>
+            <input
+              id="deadline"
+              type="date"
+              [ngModel]="deadline()"
+              (ngModelChange)="deadline.set($event)"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2 class="card-title"><span class="bar"></span>Itens do pedido</h2>
+
+        <div class="fields-row">
+          <div class="field field-description">
+            <label for="descriptionItem">Descrição:</label>
+            <input
+              id="descriptionItem"
+              type="text"
+              [ngModel]="descriptionItem()"
+              (ngModelChange)="descriptionItem.set($event)"
+              placeholder="Ex: Suporte de celular"
+            />
+          </div>
+
+          <div class="field">
+            <label for="priceItem">Valor (R$):</label>
+            <input
+              id="priceItem"
+              type="number"
+              min="0"
+              step="0.01"
+              [ngModel]="priceItem()"
+              (ngModelChange)="priceItem.set($event)"
+            />
+          </div>
+
+          <div class="field">
+            <label for="quantityItem">Quantidade:</label>
+            <input
+              id="quantityItem"
+              type="number"
+              min="1"
+              step="1"
+              [ngModel]="quantityItem()"
+              (ngModelChange)="quantityItem.set($event)"
+            />
+          </div>
+        </div>
+
+        <div class="fields-row">
+          <div class="field field-full">
+            <label for="observationsItem">Observação:</label>
+            <input
+              id="observationsItem"
+              type="text"
+              [ngModel]="observationsItem()"
+              (ngModelChange)="observationsItem.set($event)"
+              placeholder="Opcional"
+            />
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="add-button"
+          [disabled]="!canAddItem()"
+          (click)="handleAddItem()"
+        >
+          + Adicionar ao pedido
+        </button>
+
+        <div class="itens-wrapper">
+          <app-order-items [items]="items()" (removeItem)="handleRemoveItem($event)" />
+        </div>
+      </section>
+    </div>
+
+    <aside class="summary-column">
+      <h2 class="summary-title">Resumo do pedido</h2>
+
+      <div class="summary-card">
+        <p class="summary-label">Quantidade total de itens:</p>
+        <p class="summary-value">{{ totalQuantity() }}</p>
+      </div>
+
+      <div class="summary-card summary-card--highlight">
+        <p class="summary-label">Valor total do pedido:</p>
+        <p class="summary-value">{{ totalPriceFormatted() }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="save-button"
+        [disabled]="!canSubmitOrder() || isLoading()"
+        (click)="handleSubmitOrder()"
+      >
+        @if (isLoading()) {
+          Salvando...
+        }
+        @if (!isLoading()) {
+          Salvar pedido
+        }
+      </button>
+    </aside>
+  </div>
+</div>
