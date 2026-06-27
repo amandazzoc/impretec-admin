@@ -1,0 +1,26 @@
+@if (items().length === 0) {
+  <p class="empty-state">Nenhum item adicionado ainda.</p>
+}
+
+@if (items().length > 0) {
+  <div class="items-list">
+    @for (item of items(); track item.id) {
+      <div class="item-row">
+        <div class="item-info">
+          <p class="item-description">{{ item.description }}</p>
+          @if (item.observations) {
+            <p class="item-observation">{{ item.observations }}</p>
+          }
+        </div>
+
+        <div class="item-quantity">{{ item.quantity }}x</div>
+        <div class="item-price">{{ formatCurrency(item.price) }}</div>
+        <div class="item-subtotal">{{ formatCurrency(calculateSubtotal(item)) }}</div>
+
+        <button type="button" class="remove-button" (click)="handleRemoveItem(item.id)" aria-label="Remover item">
+          ×
+        </button>
+      </div>
+    }
+  </div>
+}
