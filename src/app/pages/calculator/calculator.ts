@@ -28,13 +28,13 @@ export class Calculator {
     // FormControl é usado para criar um controle de formulário individual, que pode ser usado para capturar e validar a entrada do usuário
     timeHours: new FormControl(0, { nonNullable: true }),
     weightG: new FormControl(100, { nonNullable: true }),
-    filamentCostPerKg: new FormControl(120, { nonNullable: true }),
+    filamentCostPerKg: new FormControl(130, { nonNullable: true }),
     printerPowerW: new FormControl(360, { nonNullable: true }),
     kwhCost: new FormControl(1, { nonNullable: true }),
     packagingCost: new FormControl(2, { nonNullable: true }),
-    profitMargin: new FormControl(65, { nonNullable: true }),
+    profitMargin: new FormControl(100, { nonNullable: true }),
     riskFailure: new FormControl(false, { nonNullable: true }),
-    needPaint: new FormControl(true, { nonNullable: true }),
+    needPaint: new FormControl(false, { nonNullable: true }),
     hoursPaint: new FormControl(2, { nonNullable: true }),
     costHourPaint: new FormControl(10, { nonNullable: true }),
   })
