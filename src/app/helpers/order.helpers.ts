@@ -1,30 +1,30 @@
-import { OrderItem } from "../types/order.type";
+import { DraftOrderItem } from "../types/order.type";
 
-export const calculateItemSubtotal = (item: OrderItem): number => {
-    const subtotal = item.price * item.quantity;
+export const calculateItemSubtotal = (item: DraftOrderItem): number => {
+  const subtotal = item.price * item.quantity;
 
-    return subtotal;
-  }
+  return subtotal;
+};
 
-export const calculateTotalPrice = (items: OrderItem[]): number => {
-    const total = items.reduce((acc, item) => acc + calculateItemSubtotal(item), 0);
+export const calculateTotalPrice = (items: DraftOrderItem[]): number => {
+  const total = items.reduce((acc, item) => acc + calculateItemSubtotal(item), 0);
 
-    return total;
-  }
+  return total;
+};
 
-export const calculateTotalQuantity = (items: OrderItem[]): number => {
-    const total = items.reduce((acc, item) => acc + item.quantity, 0);
+export const calculateTotalQuantity = (items: DraftOrderItem[]): number => {
+  const total = items.reduce((acc, item) => acc + item.quantity, 0);
 
-    return total;
-  }
+  return total;
+};
 
 export const createOrderItem = (
   description: string,
   price: number,
   quantity: number,
-  observations?: string,
-): OrderItem => {
-  const item: OrderItem = {
+  observations: string | null,
+): DraftOrderItem => {
+  const item: DraftOrderItem = {
     id: crypto.randomUUID(),
     description,
     price,
@@ -41,12 +41,12 @@ export const isFormValid = (description: string, price: number, quantity: number
     return valid;
   }
 
-export const isOrderValid = (clientName: string, deadline: string, items: OrderItem[]): boolean => {
-    const valid = clientName.trim().length > 0 && deadline.length > 0 && items.length > 0;
+export const isOrderValid = (clientName: string, deadline: string, items: DraftOrderItem[]): boolean => {
+  const valid = clientName.trim().length > 0 && deadline.length > 0 && items.length > 0;
 
-    console.log('isOrderValid', { clientName, deadline, items, valid });
-    return valid;
-  }
+  console.log('isOrderValid', { clientName, deadline, items, valid });
+  return valid;
+};
 
 export const formatCurrency = (value: number): string => {
     const formattedValue = new Intl.NumberFormat('pt-BR', {

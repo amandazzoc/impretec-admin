@@ -83,9 +83,13 @@
 
       <app-summary-card label="Valor total do pedido:" [value]="totalPriceFormatted()" [highlight]="true" />
 
-      <app-button [isLoading]="isLoading()" [disabled]="!canSubmitOrder()" (clicked)="handleSubmitOrder()">
+      <app-button [isLoading]="isLoading()" [disabled]="!canSubmitOrder() || isLoading()" (clicked)="handleSubmitOrder()">
         Salvar pedido
       </app-button>
+
+      @if (submitError()) {
+        <p class="error-message">Não foi possível salvar o pedido. Tente novamente.</p>
+      }
     </aside>
   </div>
 </div>

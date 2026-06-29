@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { OrderItem } from '../../types/order.type';
+import { DraftOrderItem } from '../../types/order.type';
 import { calculateItemSubtotal, formatCurrency } from '../../helpers/order.helpers';
 
 @Component({
@@ -9,22 +9,22 @@ import { calculateItemSubtotal, formatCurrency } from '../../helpers/order.helpe
   styleUrl: './order-items.scss',
 })
 export class OrderItems {
-  readonly items = input.required<OrderItem[]>();
+  readonly items = input.required<DraftOrderItem[]>();
   readonly removeItem = output<string>();
 
-  readonly calculateSubtotal = (item: OrderItem): number => {
+  readonly calculateSubtotal = (item: DraftOrderItem): number => {
     const subtotal = calculateItemSubtotal(item);
 
     return subtotal;
-  }
+  };
 
   readonly formatCurrency = (value: number): string => {
     const formattedValue = formatCurrency(value);
 
     return formattedValue;
-  }
+  };
 
   readonly handleRemoveItem = (itemId: string): void => {
     this.removeItem.emit(itemId);
-  }
+  };
 }

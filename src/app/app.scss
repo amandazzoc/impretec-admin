@@ -96,3 +96,10 @@
   height: 16px;
   accent-color: var(--accent-green);
 }
+
+.error-message {
+  font-size: 0.8rem;
+  color: var(--color-text-danger, #e24b4a);
+  margin: 0;
+  text-align: center;
+}

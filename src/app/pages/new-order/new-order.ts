@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { OrderItems } from '../../components/order-items/order-items';
 import {
@@ -9,11 +9,13 @@ import {
   isFormValid,
   isOrderValid,
 } from '../../helpers/order.helpers';
-import { OrderItem } from '../../types/order.type';
+import { DraftOrderItem, OrderItem } from '../../types/order.type';
 import { SummaryCard } from '../../components/summary-card/summary-card';
 import { Button } from '../../components/button/button';
 import { FormField } from '../../components/form-field/form-field';
 import { Card } from '../../components/card/card';
+import { OrderService } from '../../services/order.service';
+import { mapItemToNewOrderItem } from '../../services/order.helpers';
 
 @Component({
   selector: 'app-new-order',
@@ -23,6 +25,8 @@ import { Card } from '../../components/card/card';
   styleUrl: './new-order.scss',
 })
 export class NewOrder {
+  private readonly orderService = inject(OrderService);
+
   readonly clientName = signal('');
   readonly deadline = signal('');
 
@@ -31,8 +35,9 @@ export class NewOrder {
   readonly quantityItem = signal(1);
   readonly observationsItem = signal('');
 
-  readonly items = signal<OrderItem[]>([]);
+  readonly items = signal<DraftOrderItem[]>([]);
   readonly isLoading = signal(false);
+  readonly submitError = signal(false);
 
   readonly totalPrice = computed(() => {
     const total = calculateTotalPrice(this.items());
@@ -71,8 +76,14 @@ export class NewOrder {
     this.observationsItem.set('');
   };
 
+  readonly cleanOrderForm = (): void => {
+    this.clientName.set('');
+    this.deadline.set('');
+    this.items.set([]);
+  };
+
   readonly handleAddItem = (): void => {
-    const item: OrderItem = createOrderItem(
+    const item: DraftOrderItem = createOrderItem(
       this.descriptionItem(),
       this.priceItem(),
       this.quantityItem(),
@@ -91,9 +102,21 @@ export class NewOrder {
 
   readonly handleSubmitOrder = async (): Promise<void> => {
     this.isLoading.set(true);
+    this.submitError.set(false);
 
-    // TODO: Implement the logic to submit the order to the backend or perform any necessary actions.
+    const newOrder = {
+      clientName: this.clientName(),
+      deadline: this.deadline(),
+      items: this.items().map(mapItemToNewOrderItem),
+    };
 
+    const createdOrder = await this.orderService.createOrder(newOrder);
+
+    this.submitError.set(!createdOrder);
     this.isLoading.set(false);
+
+    if (createdOrder) {
+      this.cleanOrderForm();
+    }
   };
 }
