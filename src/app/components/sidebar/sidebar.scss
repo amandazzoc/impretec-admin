@@ -55,41 +55,33 @@
   }
 }
 
-.sidebar-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 99;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-
-  &.visible {
-    opacity: 1;
-  }
-}
-
 .sidebar {
   width: 260px;
   height: 100vh;
-  /* Usando o fundo escuro do tema e substituindo a sombra por uma borda sutil */
   background-color: var(--bg-main);
   border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   padding: 24px 0;
+  transition: width 0.25s ease;
 
   .logo-container {
     padding: 0 24px 32px;
     margin-bottom: 16px;
+    overflow: hidden;
 
     h2 {
       margin: 0;
-      color: var(--accent-green); /* Título em verde neon */
+      color: var(--accent-green);
       font-size: 1.2rem;
       font-weight: 700;
       letter-spacing: 1.5px;
       text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .logo-short {
+      text-align: center;
     }
 
     p {
@@ -99,6 +91,7 @@
       color: var(--text-secondary);
       text-transform: uppercase;
       letter-spacing: 1.5px;
+      white-space: nowrap;
     }
   }
 
@@ -107,8 +100,12 @@
     flex-direction: column;
     gap: 4px;
     padding: 0 16px;
+    flex: 1;
 
     .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
       text-decoration: none;
       color: var(--text-secondary);
       padding: 12px 16px;
@@ -116,23 +113,36 @@
       font-weight: 500;
       font-size: 0.9rem;
       transition: all 0.2s ease;
-      position: relative; /* Necessário para posicionar o indicador lateral */
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+
+      .menu-icon {
+        flex-shrink: 0;
+        color: inherit;
+      }
+
+      .menu-label {
+        transition: opacity 0.15s ease;
+      }
+
+      span {
+        transition: opacity 0.15s ease;
+      }
 
       &:hover {
         background-color: var(--bg-surface);
         color: var(--text-primary);
       }
 
-      /* Estilo da classe ativa do Angular, baseado na imagem de referência */
       &.active {
-        background-color: var(--bg-surface); /* Fundo um pouco mais claro */
-        color: var(--accent-green); /* Texto verde */
-        
-        /* Detalhe: Barra vertical verde na extremidade esquerda */
+        background-color: var(--bg-surface);
+        color: var(--accent-green);
+
         &::before {
-          content: '';
+          content: "";
           position: absolute;
-          left: -16px; /* Compensa o padding da div .menu */
+          left: -16px;
           top: 15%;
           height: 70%;
           width: 3px;
@@ -142,15 +152,58 @@
       }
     }
   }
+
+  .collapse-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 16px auto 0;
+    width: 32px;
+    height: 32px;
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--border-color);
+    }
+  }
+
+  &.collapsed {
+    width: 76px;
+
+    .menu-item {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .menu-label {
+        opacity: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+    }
+  }
+}
+
+.chevron-icon {
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--text-secondary);
+  border-bottom: 2px solid var(--text-secondary);
+  transform: rotate(135deg);
+  transition: transform 0.25s ease;
+
+  &.collapsed {
+    transform: rotate(-45deg);
+  }
 }
 
 @media (max-width: 768px) {
   .menu-toggle {
     display: flex;
-  }
-
-  .sidebar-overlay {
-    display: block;
   }
 
   .sidebar {
@@ -166,5 +219,18 @@
       transform: translateX(0);
       box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
     }
+
+    &.collapsed {
+      width: 260px;
+    }
+
+    .collapse-toggle {
+      display: none;
+    }
   }
+}
+
+.menu-icon svg { 
+   width: 20px; 
+   height: 20px; 
 }

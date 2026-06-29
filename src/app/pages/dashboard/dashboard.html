@@ -4,7 +4,7 @@
     <p>Arraste os pedidos entre as colunas para atualizar o status</p>
   </header>
 
-  <div class="board" cdkDropListGroup>
+  <div class="board thin-scrollbar" cdkDropListGroup>
     @for (column of statusColumns; track column.status) {
       <app-kanban-column
         [label]="column.label"

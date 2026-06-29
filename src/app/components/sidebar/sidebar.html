@@ -1,44 +1,44 @@
 <button
-    class="menu-toggle"
-    (click)="toggleSidebar()"
-    [attr.aria-expanded]="isOpen()"
-    aria-label="Toggle menu"
+  class="menu-toggle"
+  (click)="toggleSidebar()"
+  [attr.aria-expanded]="isOpen()"
+  aria-label="Toggle menu"
 >
-    <span class="hamburger-icon" [class.open]="isOpen()"></span>
+  <span class="hamburger-icon" [class.open]="isOpen()"></span>
 </button>
 
-<aside class="sidebar" [class.open]="isOpen()">
-    <div class="logo-container">
-        <h2>ImpreTEC</h2>
-        <p>Painel de Controle</p>
-    </div>
+<div class="sidebar-overlay" [class.visible]="isOpen()" (click)="closeSidebar()"></div>
+
+<aside class="sidebar" [class.open]="isOpen()" [class.collapsed]="isCollapsed()">
+  <div class="logo-container">
+    @if (!isCollapsed()) {
+      <h2>ImpreTEC</h2>
+      <p>Painel de Controle</p>
+    }
+    @if (isCollapsed()) {
+      <h2 class="logo-short">IT</h2>
+    }
+  </div>
 
     <nav class="menu">
-        <a 
-            routerLink="/dashboard" 
-            routerLinkActive="active" 
-            class="menu-item"
-            (click)="closeSidebar()"
-        >
-            <span>Dashboard</span>
-        </a>
+    @for (item of menuItems; track item.route) {
+        <a [routerLink]="item.route" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+            <span class="menu-icon">
+                <ng-container *ngComponentOutlet="item.icon; inputs: { size: 20 }"></ng-container>
+            </span>
 
-        <a 
-            routerLink="/novo-pedido" 
-            routerLinkActive="active" 
-            class="menu-item" 
-            (click)="closeSidebar()"
-        >
-            <span>Novo Pedido</span>
+            <span class="menu-label">{{ item.label }}</span>
         </a>
-
-        <a 
-            routerLink="/orcamento" 
-            routerLinkActive="active" 
-            class="menu-item" 
-            (click)="closeSidebar()"
-        >
-            <span>Orcamento</span>
-        </a>
+    }
     </nav>
+
+  <button
+    type="button"
+    class="collapse-toggle"
+    (click)="toggleCollapse()"
+    [attr.aria-expanded]="!isCollapsed()"
+    aria-label="Recolher ou expandir menu"
+  >
+    <span class="chevron-icon" [class.collapsed]="isCollapsed()"></span>
+  </button>
 </aside>
