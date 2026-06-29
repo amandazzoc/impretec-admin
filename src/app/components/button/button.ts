@@ -5,8 +5,8 @@ export type ButtonVariant = 'primary' | 'outline';
 @Component({
   selector: 'app-button',
   standalone: true,
-  templateUrl: './Button.html',
-  styleUrl: './Button.scss',
+  templateUrl: './button.html',
+  styleUrl: './button.scss',
 })
 export class Button {
   readonly variant = input<ButtonVariant>('primary');
