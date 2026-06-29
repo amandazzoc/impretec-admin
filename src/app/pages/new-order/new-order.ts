@@ -9,7 +9,7 @@ import {
   isFormValid,
   isOrderValid,
 } from '../../helpers/order.helpers';
-import { DraftOrderItem, OrderItem } from '../../types/order.type';
+import { DraftOrderItem } from '../../types/order.type';
 import { SummaryCard } from '../../components/summary-card/summary-card';
 import { Button } from '../../components/button/button';
 import { FormField } from '../../components/form-field/form-field';

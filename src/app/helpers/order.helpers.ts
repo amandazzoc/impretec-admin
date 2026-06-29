@@ -1,4 +1,16 @@
-import { DraftOrderItem } from "../types/order.type";
+import { DraftOrderItem, Order, OrderStatus } from '../types/order.type';
+
+export type StatusColumnConfig = {
+  status: OrderStatus;
+  label: string;
+};
+
+export const STATUS_COLUMNS: StatusColumnConfig[] = [
+  { status: 'pending', label: 'Pendente' },
+  { status: 'processing', label: 'Em andamento' },
+  { status: 'completed', label: 'Concluído' },
+  { status: 'cancelled', label: 'Cancelado' },
+];
 
 export const calculateItemSubtotal = (item: DraftOrderItem): number => {
   const subtotal = item.price * item.quantity;
@@ -36,23 +48,66 @@ export const createOrderItem = (
 };
 
 export const isFormValid = (description: string, price: number, quantity: number): boolean => {
-    const valid = description.trim().length > 0 && price > 0 && quantity > 0;
+  const valid = description.trim().length > 0 && price > 0 && quantity > 0;
 
-    return valid;
-  }
+  return valid;
+};
 
-export const isOrderValid = (clientName: string, deadline: string, items: DraftOrderItem[]): boolean => {
+export const isOrderValid = (
+  clientName: string,
+  deadline: string,
+  items: DraftOrderItem[],
+): boolean => {
   const valid = clientName.trim().length > 0 && deadline.length > 0 && items.length > 0;
 
   console.log('isOrderValid', { clientName, deadline, items, valid });
   return valid;
 };
 
-export const formatCurrency = (value: number): string => {
-    const formattedValue = new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
+export const createEmptyColumns = (): Record<OrderStatus, Order[]> => {
+  const columns = STATUS_COLUMNS.reduce(
+    (accumulated, column) => ({ ...accumulated, [column.status]: [] }),
+    {} as Record<OrderStatus, Order[]>,
+  );
 
-    return formattedValue;
-  }
+  return columns;
+};
+
+export const groupOrdersByStatus = (orders: Order[]): Record<OrderStatus, Order[]> => {
+  const grouped = STATUS_COLUMNS.reduce(
+    (accumulated, column) => {
+      const ordersForStatus = orders.filter((order) => order.status === column.status);
+      const updated = { ...accumulated, [column.status]: ordersForStatus };
+
+      return updated;
+    },
+    {} as Record<OrderStatus, Order[]>,
+  );
+
+  return grouped;
+};
+
+export const calculateColumnTotal = (orders: Order[]): number => {
+  const total = orders.reduce(
+    (accumulated, order) => accumulated + calculateTotalPrice(order.items),
+    0,
+  );
+
+  return total;
+};
+
+export const formatDate = (isoDate: string): string => {
+  const date = new Date(isoDate);
+  const formatted = date.toLocaleDateString('pt-BR');
+
+  return formatted;
+};
+
+export const formatCurrency = (value: number): string => {
+  const formatted = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value);
+
+  return formatted;
+};

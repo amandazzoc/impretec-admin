@@ -1,0 +1,26 @@
+<div class="kanban-column">
+  <header class="column-header">
+    <h3 class="column-title">{{ label() }}</h3>
+    <span class="column-count">{{ orders().length }}</span>
+  </header>
+
+  <p class="column-total">{{ totalFormatted() }}</p>
+
+  <div
+    class="column-list"
+    cdkDropList
+    [id]="status()"
+    [cdkDropListData]="orders()"
+    (cdkDropListDropped)="handleDrop($event)"
+  >
+    @for (order of orders(); track order.id) {
+      <div cdkDrag [cdkDragData]="order" class="drag-item">
+        <app-order-card [order]="order" />
+      </div>
+    }
+
+    @if (orders().length === 0) {
+      <p class="empty-column">Nenhum pedido aqui</p>
+    }
+  </div>
+</div>

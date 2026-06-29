@@ -1,17 +1,19 @@
-
-import { OrderItem } from '../types/order.type';
-import { 
-    calculateItemSubtotal,
-    calculateTotalPrice,
-    calculateTotalQuantity, 
-    createOrderItem, 
-    isFormValid, 
-    isOrderValid, 
-    formatCurrency 
+import { DraftOrderItem } from '../types/order.type';
+import {
+  calculateItemSubtotal,
+  calculateTotalPrice,
+  calculateTotalQuantity,
+  createOrderItem,
+  isFormValid,
+  isOrderValid,
+  groupOrdersByStatus,
+  calculateColumnTotal,
+  formatDate,
+  formatCurrency,
 } from './order.helpers';
 
-const buildItem = (overrides: Partial<OrderItem> = {}): OrderItem => {
-  const item: OrderItem = {
+const buildItem = (overrides: Partial<DraftOrderItem> = {}): DraftOrderItem => {
+  const item: DraftOrderItem = {
     id: '1',
     description: 'Item 1',
     price: 10,
@@ -100,5 +102,55 @@ describe('formatCurrency', () => {
     const formatted = formatCurrency(96.52);
 
     expect(formatted).toContain('96,52');
+  });
+});
+
+describe('groupOrdersByStatus', () => {
+  it('groups orders into their matching status columns', () => {
+    const orders = [
+      {
+        id: '1',
+        clientName: 'A',
+        deadline: '2026-07-01',
+        status: 'pending',
+        createdAt: '',
+        items: [],
+      },
+      {
+        id: '2',
+        clientName: 'B',
+        deadline: '2026-07-02',
+        status: 'completed',
+        createdAt: '',
+        items: [],
+      },
+    ] as any;
+
+    const grouped = groupOrdersByStatus(orders);
+
+    expect(grouped.pending.length).toBe(1);
+    expect(grouped.completed.length).toBe(1);
+    expect(grouped.processing.length).toBe(0);
+  });
+});
+
+describe('calculateColumnTotal', () => {
+  it('sums the total price of every order in the column', () => {
+    const orders = [
+      { items: [{ price: 10, quantity: 2 }] },
+      { items: [{ price: 5, quantity: 1 }] },
+    ] as any;
+
+    const total = calculateColumnTotal(orders);
+
+    expect(total).toBe(25);
+  });
+});
+
+describe('formatDate', () => {
+  it('formats an ISO date string as pt-BR', () => {
+    const formatted = formatDate('2026-07-01');
+
+    expect(formatted).toContain('2026');
   });
 });

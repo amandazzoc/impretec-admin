@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NewOrder, Order as OrderModel } from '../types/order.type';
+import { NewOrder, Order as OrderModel, OrderStatus } from '../types/order.type';
 import { supabase } from './supabase.client';
 import { mapNewOrderItemToOrderItemRow, mapNewOrderToOrderRow, mapOrderRowToOrder } from './order.helpers';
 
@@ -76,5 +76,15 @@ export class OrderService {
     const success = !error;
 
     return success;
+  };
+
+  readonly updateOrderStatus = async (
+    id: string,
+    status: OrderStatus,
+  ): Promise<OrderModel | null> => {
+    const { error } = await supabase.from(ORDERS_TABLE).update({ status }).eq('id', id);
+    const order = error ? null : await this.getOrderById(id);
+
+    return order;
   };
 }

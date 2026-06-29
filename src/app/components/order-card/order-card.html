@@ -1,0 +1,10 @@
+<div class="order-card">
+  <p class="order-client">{{ order().clientName }}</p>
+
+  <div class="order-meta">
+    <span class="order-deadline">{{ deadlineFormatted() }}</span>
+    <span class="order-items-count">{{ itemsLabel() }}</span>
+  </div>
+
+  <p class="order-total">{{ totalFormatted() }}</p>
+</div>
