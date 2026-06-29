@@ -13,11 +13,12 @@ import {
 } from '../../helpers/order.helpers';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
+import { OrderDetailsModal } from '../../components/order-details-modal/order-details-modal';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DragDropModule, KanbanColumn],
+  imports: [DragDropModule, KanbanColumn, OrderDetailsModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -27,6 +28,8 @@ export class Dashboard implements OnInit {
   readonly statusColumns = STATUS_COLUMNS;
   readonly columns = signal<Record<OrderStatus, Order[]>>(createEmptyColumns());
   readonly isLoading = signal(false);
+
+  readonly selectedOrder = signal<Order | null>(null);
 
   ngOnInit(): void {
     this.loadOrders();
@@ -73,5 +76,13 @@ export class Dashboard implements OnInit {
     if (shouldUpdateStatus) {
       await this.orderService.updateOrderStatus(movedOrder.id, currentStatus);
     }
+  };
+
+  readonly handleOrderSelected = (order: Order): void => {
+    this.selectedOrder.set(order);
+  };
+
+  readonly closeOrderDetails = (): void => {
+    this.selectedOrder.set(null);
   };
 }

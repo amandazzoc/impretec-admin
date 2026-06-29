@@ -1,4 +1,4 @@
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { Order } from '../../types/order.type';
 import { calculateTotalPrice, formatCurrency, formatDate } from '../../helpers/order.helpers';
 
@@ -10,6 +10,7 @@ import { calculateTotalPrice, formatCurrency, formatDate } from '../../helpers/o
 })
 export class OrderCard {
   readonly order = input.required<Order>();
+  readonly selected = output<Order>();
 
   readonly totalFormatted = computed(() => {
     const total = calculateTotalPrice(this.order().items);
@@ -30,4 +31,8 @@ export class OrderCard {
 
     return label;
   });
+
+  readonly handleClick = (): void => {
+    this.selected.emit(this.order());
+  };
 }

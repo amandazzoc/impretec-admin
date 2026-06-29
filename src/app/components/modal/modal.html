@@ -1,0 +1,14 @@
+<div class="modal-backdrop" (click)="handleBackdropClick()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      @if (title()) {
+        <h2 class="modal-title">{{ title() }}</h2>
+      }
+      <button type="button" class="modal-close" (click)="handleClose()" aria-label="Fechar">×</button>
+    </header>
+
+    <div class="modal-body">
+      <ng-content />
+    </div>
+  </div>
+</div>

@@ -15,7 +15,7 @@
   >
     @for (order of orders(); track order.id) {
       <div cdkDrag [cdkDragData]="order" class="drag-item">
-        <app-order-card [order]="order" />
+        <app-order-card [order]="order" (selected)="handleOrderSelected($event)" />
       </div>
     }
 

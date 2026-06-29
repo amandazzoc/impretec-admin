@@ -12,6 +12,13 @@ export const STATUS_COLUMNS: StatusColumnConfig[] = [
   { status: 'cancelled', label: 'Cancelado' },
 ];
 
+export const formatOrderStatus = (status: OrderStatus): string => {
+  const column = STATUS_COLUMNS.find((statusColumn) => statusColumn.status === status);
+  const label = column ? column.label : status;
+
+  return label;
+};
+
 export const calculateItemSubtotal = (item: DraftOrderItem): number => {
   const subtotal = item.price * item.quantity;
 

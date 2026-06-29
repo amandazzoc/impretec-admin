@@ -11,7 +11,12 @@
         [status]="column.status"
         [orders]="columns()[column.status]"
         (dropped)="handleDrop($event)"
+        (orderSelected)="handleOrderSelected($event)"
       />
     }
   </div>
+
+  @if (selectedOrder()) {
+    <app-order-details-modal [order]="selectedOrder()!" (closed)="closeOrderDetails()" />
+  }
 </div>

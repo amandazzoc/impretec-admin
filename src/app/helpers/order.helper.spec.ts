@@ -10,6 +10,7 @@ import {
   calculateColumnTotal,
   formatDate,
   formatCurrency,
+  formatOrderStatus,
 } from './order.helpers';
 
 const buildItem = (overrides: Partial<DraftOrderItem> = {}): DraftOrderItem => {
@@ -152,5 +153,13 @@ describe('formatDate', () => {
     const formatted = formatDate('2026-07-01');
 
     expect(formatted).toContain('2026');
+  });
+});
+
+describe('formatOrderStatus', () => {
+  it('returns the label matching the status from STATUS_COLUMNS', () => {
+    const label = formatOrderStatus('processing');
+
+    expect(label).toBe('Em andamento');
   });
 });
