@@ -6,57 +6,30 @@
   <div class="items-list">
     @for (item of items(); track item.id) {
       @if (editingItemId() === item.id) {
-        <div class="item-row item-row--editing">
+       <div class="item-row item-row--editing">
           <div class="item-edit-fields">
-            <div class="fields-row">
-              <app-form-field label="Descrição:" [fullWidth]="true">
-                <input
-                  type="text"
-                  [ngModel]="editDescription()"
-                  (ngModelChange)="editDescription.set($event)"
-                />
-              </app-form-field>
-            </div>
+            <app-form-field label="Descrição:" [fullWidth]="true">
+              <input type="text" [ngModel]="editDescription()" (ngModelChange)="editDescription.set($event)" />
+            </app-form-field>
 
-            <div class="fields-row">
+            <div class="fields-grid">
               <app-form-field label="Valor (R$):">
-                <input
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  [ngModel]="editPrice()"
-                  (ngModelChange)="editPrice.set($event)"
-                />
+                <input type="number" min="0" step="0.01" [ngModel]="editPrice()" (ngModelChange)="editPrice.set($event)" />
               </app-form-field>
 
-              <app-form-field label="Quantidade:">
-                <input
-                  type="number"
-                  min="1"
-                  step="1"
-                  [ngModel]="editQuantity()"
-                  (ngModelChange)="editQuantity.set($event)"
-                />
+              <app-form-field label="Qtd:">
+                <input type="number" min="1" step="1" [ngModel]="editQuantity()" (ngModelChange)="editQuantity.set($event)" />
               </app-form-field>
 
               <app-form-field label="Observação:">
-                <input
-                  type="text"
-                  [ngModel]="editObservations()"
-                  (ngModelChange)="editObservations.set($event)"
-                  placeholder="Opcional"
-                />
+                <input type="text" [ngModel]="editObservations()" (ngModelChange)="editObservations.set($event)" placeholder="Opcional" />
               </app-form-field>
             </div>
           </div>
 
           <div class="item-edit-actions">
-            <app-button (clicked)="handleSaveEdit(item.id)" [disabled]="!canSaveEdit()">
-              Salvar
-            </app-button>
-            <app-button variant="outline" (clicked)="handleCancelEdit()">
-              Cancelar
-            </app-button>
+            <app-button variant="outline" (clicked)="handleCancelEdit()">Cancelar</app-button>
+            <app-button (clicked)="handleSaveEdit(item.id)" [disabled]="!canSaveEdit()">Salvar</app-button>
           </div>
         </div>
       } @else {
@@ -64,7 +37,7 @@
           <div class="item-info">
             <p class="item-description">{{ item.description }}</p>
             @if (item.observations) {
-              <p class="item-observation">{{ item.observations }}</p>
+              <p class="item-observations">{{ item.observations }}</p>
             }
           </div>
 
@@ -72,23 +45,22 @@
           <div class="item-price">{{ formatCurrency(item.price) }}</div>
           <div class="item-subtotal">{{ formatCurrency(calculateSubtotal(item)) }}</div>
 
-          <button
-            type="button"
-            class="edit-button"
-            (click)="handleStartEdit(item)"
-            aria-label="Editar item"
-          >
-            ✎
-          </button>
+          <div class="item-actions">
+            <button type="button" class="action-btn edit-btn" (click)="handleStartEdit(item)" title="Editar item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path>
+                <path d="m15 5 4 4"></path>
+              </svg>
+            </button>
 
-          <button
-            type="button"
-            class="remove-button"
-            (click)="handleRemoveItem(item.id)"
-            aria-label="Remover item"
-          >
-            ×
-          </button>
+            <button type="button" class="action-btn remove-btn" (click)="handleRemoveItem(item.id)" title="Remover item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+                <path d="M3 6h18"></path>
+                <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
         </div>
       }
     }
