@@ -1,0 +1,82 @@
+.edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.fields-row {
+  display: flex;
+  gap: 12px;
+}
+
+.edit-subtitle {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+}
+
+.items-wrapper {
+  margin-top: 4px;
+}
+
+.edit-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-color);
+}
+
+.edit-total {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--accent-green);
+}
+
+.error-message {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--error-color, #e53e3e);
+}
+
+.item-row--editing {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 12px;
+}
+
+.item-edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fields-row {
+  display: flex;
+  gap: 12px;
+}
+
+.item-edit-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.edit-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.15s;
+
+  &:hover {
+    color: var(--text-primary);
+  }
+}

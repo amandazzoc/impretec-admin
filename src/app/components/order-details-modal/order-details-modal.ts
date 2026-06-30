@@ -9,6 +9,7 @@ import {
   formatOrderStatus,
 } from '../../helpers/order.helpers';
 import { CheckboxField } from '../checkbox-field/checkbox-field';
+import { Button } from '../button/button';
 
 export type ItemCheckEvent = {
   itemId: string;
@@ -18,7 +19,7 @@ export type ItemCheckEvent = {
 @Component({
   selector: 'app-order-details-modal',
   standalone: true,
-  imports: [Modal, CheckboxField],
+  imports: [Modal, CheckboxField, Button],
   templateUrl: './order-details-modal.html',
   styleUrl: './order-details-modal.scss',
 })
@@ -26,29 +27,17 @@ export class OrderDetailsModal {
   readonly order = input.required<Order>();
   readonly closed = output<void>();
   readonly itemChecked = output<ItemCheckEvent>();
+  readonly editRequested = output<void>();
 
-  readonly statusLabel = computed(() => {
-    const label = formatOrderStatus(this.order().status);
+  readonly statusLabel = computed(() => formatOrderStatus(this.order().status));
 
-    return label;
-  });
+  readonly deadlineFormatted = computed(() => formatDate(this.order().deadline));
 
-  readonly deadlineFormatted = computed(() => {
-    const formatted = formatDate(this.order().deadline);
+  readonly totalFormatted = computed(() => formatCurrency(calculateTotalPrice(this.order().items)));
 
-    return formatted;
-  });
+  readonly handleClosed = (): void => this.closed.emit();
 
-  readonly totalFormatted = computed(() => {
-    const total = calculateTotalPrice(this.order().items);
-    const formatted = formatCurrency(total);
-
-    return formatted;
-  });
-
-  readonly handleClosed = (): void => {
-    this.closed.emit();
-  };
+  readonly handleEditClick = (): void => this.editRequested.emit();
 
   readonly formatItemSubtotal = (item: OrderItem): string => {
     const subtotal = calculateItemSubtotal(item);

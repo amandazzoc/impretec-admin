@@ -14,11 +14,12 @@ import {
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
 import { ItemCheckEvent, OrderDetailsModal } from '../../components/order-details-modal/order-details-modal';
+import { OrderEditModal } from '../../components/order-edit-modal/order-edit-modal';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [DragDropModule, KanbanColumn, OrderDetailsModal],
+  imports: [DragDropModule, KanbanColumn, OrderDetailsModal, OrderEditModal],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -30,6 +31,7 @@ export class Dashboard implements OnInit {
   readonly isLoading = signal(false);
 
   readonly selectedOrder = signal<Order | null>(null);
+  readonly editingOrder = signal<Order | null>(null);
 
   ngOnInit(): void {
     this.loadOrders();
@@ -115,5 +117,33 @@ export class Dashboard implements OnInit {
 
     // Persiste no banco
     await this.orderService.toggleItemCheck(itemId, isChecked);
+  };
+
+  readonly openEditModal = (): void => {
+    this.editingOrder.set(this.selectedOrder());
+    this.selectedOrder.set(null);
+  };
+
+  readonly closeEditModal = (): void => {
+    this.editingOrder.set(null);
+  };
+
+  readonly handleOrderSaved = (updatedOrder: Order): void => {
+    const updatedColumns = { ...this.columns() };
+
+    for (const status in updatedColumns) {
+      updatedColumns[status as OrderStatus] = updatedColumns[status as OrderStatus].map((order) =>
+        order.id === updatedOrder.id ? updatedOrder : order,
+      );
+    }
+
+    const oldStatus = this.editingOrder()?.status;
+    if (oldStatus && oldStatus !== updatedOrder.status) {
+      updatedColumns[oldStatus] = updatedColumns[oldStatus].filter((o) => o.id !== updatedOrder.id);
+      updatedColumns[updatedOrder.status] = [updatedOrder, ...updatedColumns[updatedOrder.status]];
+    }
+
+    this.columns.set(updatedColumns);
+    this.editingOrder.set(null);
   };
 }

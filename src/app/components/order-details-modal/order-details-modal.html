@@ -40,4 +40,10 @@
     <span class="detail-label">Total:</span>
     <span class="detail-value">{{ totalFormatted() }}</span>
   </div>
+
+  <div class="details-actions">
+    <app-button variant="outline" (clicked)="handleEditClick()">
+      Editar pedido
+    </app-button>
+  </div>
 </app-modal>

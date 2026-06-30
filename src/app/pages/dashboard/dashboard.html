@@ -38,10 +38,19 @@
   </div>
 
   @if (selectedOrder()) {
-    <app-order-details-modal 
-      [order]="selectedOrder()!" 
-      (closed)="closeOrderDetails()" 
+    <app-order-details-modal
+      [order]="selectedOrder()!"
+      (closed)="closeOrderDetails()"
       (itemChecked)="handleItemChecked($event)"
+      (editRequested)="openEditModal()"
+    />
+  }
+
+  @if (editingOrder()) {
+    <app-order-edit-modal
+      [order]="editingOrder()!"
+      (closed)="closeEditModal()"
+      (saved)="handleOrderSaved($event)"
     />
   }
 </div>

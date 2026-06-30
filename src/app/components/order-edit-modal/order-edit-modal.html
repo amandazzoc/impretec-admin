@@ -1,0 +1,94 @@
+<app-modal title="Editar pedido" (closed)="handleClosed()">
+  <div class="edit-fields">
+    <div class="fields-row">
+      <app-form-field label="Nome do cliente:">
+        <input
+          type="text"
+          [ngModel]="clientName()"
+          (ngModelChange)="clientName.set($event)"
+          placeholder="Ex: João Silva"
+        />
+      </app-form-field>
+
+      <app-form-field label="Prazo:">
+        <input
+          type="date"
+          [ngModel]="deadline()"
+          (ngModelChange)="deadline.set($event)"
+        />
+      </app-form-field>
+    </div>
+
+    <h3 class="edit-subtitle">Itens do pedido</h3>
+
+    <div class="fields-row">
+      <app-form-field label="Descrição:" [fullWidth]="true">
+        <input
+          type="text"
+          [ngModel]="descriptionItem()"
+          (ngModelChange)="descriptionItem.set($event)"
+          placeholder="Ex: Suporte de celular"
+        />
+      </app-form-field>
+    </div>
+
+    <div class="fields-row">
+      <app-form-field label="Valor (R$):">
+        <input
+          type="number"
+          min="0"
+          step="0.01"
+          [ngModel]="priceItem()"
+          (ngModelChange)="priceItem.set($event)"
+        />
+      </app-form-field>
+
+      <app-form-field label="Quantidade:">
+        <input
+          type="number"
+          min="1"
+          step="1"
+          [ngModel]="quantityItem()"
+          (ngModelChange)="quantityItem.set($event)"
+        />
+      </app-form-field>
+
+      <app-form-field label="Observação:">
+        <input
+          type="text"
+          [ngModel]="observationsItem()"
+          (ngModelChange)="observationsItem.set($event)"
+          placeholder="Opcional"
+        />
+      </app-form-field>
+    </div>
+
+    <app-button variant="outline" [disabled]="!canAddItem()" (clicked)="handleAddItem()">
+      + Adicionar item
+    </app-button>
+
+    <div class="items-wrapper">
+      <app-order-items
+        [items]="items()"
+        (removeItem)="handleRemoveItem($event)"
+        (editItem)="handleEditItem($event)"
+        />
+    </div>
+
+    <div class="edit-footer">
+      <span class="edit-total">Total: {{ totalPriceFormatted() }}</span>
+
+      <app-button
+        [isLoading]="isLoading()"
+        [disabled]="!canSubmit() || isLoading()"
+        (clicked)="handleSave()"
+      >
+        Salvar alterações
+      </app-button>
+    </div>
+
+    @if (submitError()) {
+      <p class="error-message">Não foi possível salvar. Tente novamente.</p>
+    }
+  </div>
+</app-modal>
