@@ -11,12 +11,6 @@
   gap: 10px;
 }
 
-.fields-grid {
-  display: grid;
-  grid-template-columns: 120px 80px 1fr;
-  gap: 12px;
-}
-
 .item-row {
   display: grid;
   grid-template-columns: 1fr auto auto auto auto;
@@ -94,13 +88,6 @@
     gap: 12px;
     width: 100%;
   }
-  .fields-grid {
-    display: grid;
-    /* Usamos frações (fr) em vez de px fixos para evitar a barra de rolagem horizontal */
-    grid-template-columns: 1fr 0.8fr 1.5fr; 
-    gap: 12px;
-    width: 100%;
-  }
 
   .item-edit-actions {
     display: flex;
@@ -172,14 +159,6 @@
   gap: 16px; /* Maior espaçamento entre a linha da descrição e a linha de valores */
 }
 
-.fields-grid {
-  display: grid;
-  /* minmax garante que eles nunca vão encolher e virar um quadrado minúsculo */
-  grid-template-columns: minmax(90px, 1fr) minmax(70px, 0.8fr) minmax(120px, 2fr); 
-  gap: 16px;
-  width: 100%;
-}
-
 .item-edit-actions {
   display: flex;
   gap: 12px;
@@ -188,4 +167,41 @@
   padding-top: 16px;
   border-top: 1px dashed var(--border-color);
   width: 100%;
+}
+
+@media (max-width: 500px) {
+  .item-row {
+    /* Muda para 3 colunas base no mobile */
+    grid-template-columns: auto 1fr auto;
+    row-gap: 16px; /* Espaço maior entre os "andares" */
+    column-gap: 12px;
+  }
+
+  /* Andar de Cima */
+  .item-row .item-info {
+    grid-column: 1 / -1; /* Ocupa a linha inteira (da coluna 1 ao final) */
+  }
+
+  /* Andar do Meio (Quantidade, Preço, Subtotal) */
+  .item-row .item-quantity {
+    grid-column: 1;
+  }
+
+  .item-row .item-price {
+    grid-column: 2;
+  }
+
+  .item-row .item-subtotal {
+    grid-column: 3;
+    text-align: right; /* Garante que o total fique colado na direita */
+  }
+
+  /* Andar de Baixo (Ações) */
+  .item-row .item-actions {
+    grid-column: 1 / -1; /* Ocupa a linha inteira */
+    justify-content: flex-end; /* Joga os ícones para a direita */
+    padding-top: 12px;
+    border-top: 1px dashed var(--border-color); /* Linha divisória sutil */
+    width: 100%;
+  }
 }

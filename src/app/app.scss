@@ -139,3 +139,20 @@
     }
   }
 }
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: minmax(90px, 1fr) minmax(70px, 0.8fr) minmax(120px, 2fr);
+  gap: 16px;
+  width: 100%;
+}
+
+@media (max-width: 500px) {
+  .fields-grid {
+    grid-template-columns: 1fr 1fr; 
+  }
+
+  .fields-grid > app-form-field:nth-child(3) {
+    grid-column: 1 / -1; 
+  }
+}
