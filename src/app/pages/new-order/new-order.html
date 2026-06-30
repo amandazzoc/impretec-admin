@@ -7,7 +7,7 @@
   <div class="page-grid">
     <div class="main-column">
       <app-card title="Dados do pedido">
-        <div class="fields-row">
+        <div class="fields-name-deadline">
           <app-form-field label="Nome do cliente:">
             <input
               type="text"
@@ -25,16 +25,14 @@
 
       <app-card title="Itens do pedido">
         <div class="fields">
-          <div class="fields-row">
-            <app-form-field label="Descrição:" [fullWidth]="true">
-              <input
-                type="text"
-                [ngModel]="descriptionItem()"
-                (ngModelChange)="descriptionItem.set($event)"
-                placeholder="Ex: Suporte de celular"
-              />
-            </app-form-field>
-          </div>
+          <app-form-field label="Descrição:" [fullWidth]="true">
+            <input
+              type="text"
+              [ngModel]="descriptionItem()"
+              (ngModelChange)="descriptionItem.set($event)"
+              placeholder="Ex: Suporte de celular"
+            />
+          </app-form-field>
 
           <div class="fields-row">
             <app-form-field label="Valor (R$):">
@@ -88,6 +86,14 @@
         [value]="totalPriceFormatted()"
         [highlight]="true"
       />
+
+      <app-button
+        variant="outline"
+        [disabled]="items().length === 0"
+        (clicked)="handleDownloadSummary()"
+      >
+        Baixar resumo (PDF)
+      </app-button>
 
       <app-button
         [isLoading]="isLoading()"

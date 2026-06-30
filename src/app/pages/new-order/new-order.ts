@@ -16,6 +16,7 @@ import { FormField } from '../../components/form-field/form-field';
 import { Card } from '../../components/card/card';
 import { OrderService } from '../../services/order.service';
 import { mapItemToNewOrderItem } from '../../services/order.helpers';
+import { downloadOrderSummaryPdf } from '../../helpers/order-summary-pdf.helper';
 
 @Component({
   selector: 'app-new-order',
@@ -118,5 +119,9 @@ export class NewOrder {
     if (createdOrder) {
       this.cleanOrderForm();
     }
+  };
+
+  readonly handleDownloadSummary = async (): Promise<void> => {
+    await downloadOrderSummaryPdf(this.clientName(), this.deadline(), this.items());
   };
 }

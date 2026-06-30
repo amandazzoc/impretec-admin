@@ -2,3 +2,13 @@
 .itens-wrapper {
   margin-top: 20px;
 }
+
+.fields-name-deadline {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+
+  app-form-field:first-child {
+    width: 100%;
+  }
+}
