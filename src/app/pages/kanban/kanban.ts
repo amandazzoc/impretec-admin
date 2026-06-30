@@ -7,23 +7,26 @@ import {
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { KanbanColumn } from '../../components/kanban-column/kanban-column';
 import {
+  ItemCheckEvent,
+  OrderDetailsModal,
+} from '../../components/order-details-modal/order-details-modal';
+import { OrderEditModal } from '../../components/order-edit-modal/order-edit-modal';
+import {
   createEmptyColumns,
   groupOrdersByStatus,
   STATUS_COLUMNS,
 } from '../../helpers/order.helpers';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
-import { ItemCheckEvent, OrderDetailsModal } from '../../components/order-details-modal/order-details-modal';
-import { OrderEditModal } from '../../components/order-edit-modal/order-edit-modal';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-kanban',
   standalone: true,
   imports: [DragDropModule, KanbanColumn, OrderDetailsModal, OrderEditModal],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss',
+  templateUrl: './kanban.html',
+  styleUrl: './kanban.scss',
 })
-export class Dashboard implements OnInit {
+export class Kanban implements OnInit {
   private readonly orderService = inject(OrderService);
 
   readonly statusColumns = STATUS_COLUMNS;

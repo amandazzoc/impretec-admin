@@ -1,10 +1,11 @@
+import { NgComponentOutlet } from '@angular/common';
 import { Component, signal, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NgComponentOutlet } from '@angular/common';
 import {
-  LucideLayoutDashboard,
-  LucideFilePlus,
   LucideCalculator,
+  LucideFilePlus, 
+  LucideLayoutDashboard, 
+  LucideSquareKanban 
 } from '@lucide/angular';
 
 export type MenuItem = {
@@ -15,6 +16,7 @@ export type MenuItem = {
 
 const MENU_ITEMS: MenuItem[] = [
   { label: 'Dashboard', route: '/dashboard', icon: LucideLayoutDashboard },
+  { label: 'Kanban', route: '/kanban', icon: LucideSquareKanban },
   { label: 'Novo Pedido', route: '/novo-pedido', icon: LucideFilePlus },
   { label: 'Orcamento', route: '/orcamento', icon: LucideCalculator },
 ];

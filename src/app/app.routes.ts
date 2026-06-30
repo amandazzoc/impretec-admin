@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 import { Calculator } from './pages/calculator/calculator';
-import { Dashboard } from './pages/dashboard/dashboard';
 import { NewOrder } from './pages/new-order/new-order';
+import { Kanban } from './pages/kanban/kanban';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: Dashboard },
+  { path: '', redirectTo: '/kanban', pathMatch: 'full' },
+  { path: 'kanban', component: Kanban },
   { path: 'novo-pedido', component: NewOrder },
   { path: 'orcamento', component: Calculator },
 ];
