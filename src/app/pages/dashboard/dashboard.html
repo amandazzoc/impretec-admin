@@ -1,0 +1,115 @@
+<div class="content-wrapper">
+  <header class="page-header">
+    <h1>Dashboard</h1>
+    <p>Visão geral do seu negócio</p>
+  </header>
+
+  @if (isLoading()) {
+    <div class="loading-state">
+      <p>Carregando...</p>
+    </div>
+  } @else {
+    <div class="dashboard-grid">
+
+      <!-- Cards de resumo -->
+      <div class="summary-row">
+        <app-summary-card
+          label="Faturamento total"
+          [value]="totalRevenue()"
+          [highlight]="true"
+        />
+        <app-summary-card
+          label="Pedidos em aberto"
+          [value]="openOrdersCount().toString()"
+        />
+        <app-summary-card
+          label="Ticket médio"
+          [value]="averageTicket()"
+        />
+        <app-summary-card
+          label="Taxa de conclusão"
+          [value]="completionRate()"
+        />
+      </div>
+
+      <div class="charts-row">
+
+        <!-- Faturamento por mês -->
+        <app-card title="Faturamento por mês">
+          @if (monthlyRevenue().length === 0) {
+            <p class="empty-chart">Nenhum pedido concluído ainda.</p>
+          } @else {
+            <div class="bar-chart">
+              @for (entry of monthlyRevenue(); track entry.month) {
+                <div class="bar-group">
+                    <span class="bar-value">{{ formatCurrency(entry.total) }}</span>
+                  <div
+                    class="bar-fill"
+                    [style.height.%]="(entry.total / maxMonthlyRevenue()) * 100"
+                  ></div>
+                  <span class="bar-label">{{ entry.month }}</span>
+                </div>
+              }
+            </div>
+          }
+        </app-card>
+
+        <!-- Distribuição por status -->
+        <app-card title="Pedidos por status">
+          @if (statusDistribution().length === 0) {
+            <p class="empty-chart">Nenhum pedido cadastrado.</p>
+          } @else {
+            <div class="donut-wrapper">
+              <svg class="donut-svg" viewBox="0 0 120 120">
+                @let segments = buildDonutSegments();
+                @for (seg of segments; track seg.status) {
+                  <circle
+                    class="donut-segment"
+                    cx="60" cy="60" r="40"
+                    [attr.stroke]="seg.color"
+                    [attr.stroke-dasharray]="seg.dashArray"
+                    [attr.stroke-dashoffset]="seg.dashOffset"
+                  />
+                }
+              </svg>
+
+              <div class="donut-legend">
+                @for (item of statusDistribution(); track item.status) {
+                  <div class="legend-item">
+                    <span class="legend-dot" [style.background]="item.color"></span>
+                    <span class="legend-label">{{ item.label }}</span>
+                    <span class="legend-count">{{ item.count }}</span>
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </app-card>
+
+      </div>
+
+      <!-- Top itens -->
+      <app-card title="Itens mais pedidos">
+        @if (topItems().length === 0) {
+          <p class="empty-chart">Nenhum item encontrado.</p>
+        } @else {
+          <div class="hbar-chart">
+            @for (item of topItems(); track item.description) {
+              <div class="hbar-row">
+                <span class="hbar-label">{{ item.description }}</span>
+                <div class="hbar-track">
+                  <div
+                    class="hbar-fill"
+                    [style.width.%]="(item.quantity / maxItemQuantity()) * 100"
+                  ></div>
+                </div>
+                <span class="hbar-value">{{ item.quantity }}</span>
+              </div>
+            }
+          </div>
+        }
+      </app-card>
+
+    </div>
+  }
+</div>

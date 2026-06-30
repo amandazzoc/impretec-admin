@@ -18,7 +18,7 @@ const MENU_ITEMS: MenuItem[] = [
   { label: 'Dashboard', route: '/dashboard', icon: LucideLayoutDashboard },
   { label: 'Kanban', route: '/kanban', icon: LucideSquareKanban },
   { label: 'Novo Pedido', route: '/novo-pedido', icon: LucideFilePlus },
-  { label: 'Orcamento', route: '/orcamento', icon: LucideCalculator },
+  { label: 'Orçamento', route: '/orcamento', icon: LucideCalculator },
 ];
 
 @Component({
