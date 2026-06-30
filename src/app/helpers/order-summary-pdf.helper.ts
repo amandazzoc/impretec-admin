@@ -1,5 +1,3 @@
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import { DraftOrderItem } from '../types/order.type';
 import { calculateItemSubtotal, calculateTotalPrice, formatCurrency } from './order.helpers';
 
@@ -258,6 +256,10 @@ export const downloadOrderSummaryPdf = async (
   deadline: string,
   items: DraftOrderItem[],
 ): Promise<void> => {
+  const [{ default: jsPDF }, { default: html2canvas }] = await Promise.all([
+    import('jspdf'),
+    import('html2canvas'),
+  ]);
   const wrapper = document.createElement('div');
   wrapper.style.position = 'fixed';
   wrapper.style.top = '0';
