@@ -1,14 +1,24 @@
 <app-modal [title]="order().clientName" (closed)="handleClosed()">
-  <div class="details-section">
-    <div class="detail-row">
-      <span class="detail-label">Status:</span>
-      <span class="detail-value">{{ statusLabel() }}</span>
+  
+  <div class="details-header">
+    <div class="details-section">
+      <div class="detail-row">
+        <span class="detail-label">Status:</span>
+        <span class="detail-value">{{ statusLabel() }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span class="detail-label">Prazo:</span>
+        <span class="detail-value">{{ deadlineFormatted() }}</span>
+      </div>
     </div>
 
-    <div class="detail-row">
-      <span class="detail-label">Prazo:</span>
-      <span class="detail-value">{{ deadlineFormatted() }}</span>
-    </div>
+    <button class="icon-btn edit-order-btn" (click)="handleEditClick()" title="Editar pedido">
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20h9"></path>
+        <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path>
+      </svg>
+    </button>
   </div>
 
   <h3 class="details-subtitle">Itens do pedido</h3>
@@ -36,14 +46,4 @@
     }
   </div>
 
-  <div class="detail-row detail-total">
-    <span class="detail-label">Total:</span>
-    <span class="detail-value">{{ totalFormatted() }}</span>
-  </div>
-
-  <div class="details-actions">
-    <app-button variant="outline" (clicked)="handleEditClick()">
-      Editar pedido
-    </app-button>
-  </div>
-</app-modal>
+  </app-modal>
