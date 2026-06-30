@@ -19,7 +19,7 @@ export type ItemCheckEvent = {
 @Component({
   selector: 'app-order-details-modal',
   standalone: true,
-  imports: [Modal, CheckboxField, Button],
+  imports: [Modal, CheckboxField],
   templateUrl: './order-details-modal.html',
   styleUrl: './order-details-modal.scss',
 })
