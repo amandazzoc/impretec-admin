@@ -7,6 +7,7 @@ type OrderItemRow = {
   price: number;
   quantity: number;
   observations: string | null;
+  is_checked: boolean | null;
 };
 
 type OrderRow = {
@@ -26,6 +27,7 @@ export const mapOrderItemRowToOrderItem = (row: OrderItemRow): OrderItem => {
     price: row.price,
     quantity: row.quantity,
     observations: row.observations,
+    isChecked: row.is_checked ?? false,
   };
 
   return item;

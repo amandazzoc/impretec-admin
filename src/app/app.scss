@@ -54,11 +54,17 @@
   gap: 20px;
 }
 
+.fields{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
 .fields-row {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
-  margin-bottom: 16px;
+  
 
   @media (max-width: 600px) {
     grid-template-columns: 1fr;

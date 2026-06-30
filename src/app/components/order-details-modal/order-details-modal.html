@@ -15,12 +15,19 @@
 
   <div class="details-items">
     @for (item of order().items; track item.id) {
-      <div class="detail-item-row">
-        <div class="detail-item-info">
-          <p class="item-description">{{ item.description }}</p>
-          @if (item.observations) {
-            <p class="item-observations">{{ item.observations }}</p>
-          }
+      <div class="detail-item-row" [class.is-checked]="item.isChecked">
+        <div class="item-main">
+          <app-checkbox-field
+            [label]="item.description"
+            [description]="item.observations"
+          >
+            <input
+              type="checkbox"
+              class="item-checkbox"
+              [checked]="item.isChecked"
+              (change)="handleItemCheck(item, $event)"
+            />
+          </app-checkbox-field>
         </div>
 
         <span class="item-quantity">{{ item.quantity }}x</span>

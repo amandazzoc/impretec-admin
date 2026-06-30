@@ -24,51 +24,53 @@
       </app-card>
 
       <app-card title="Itens do pedido">
-        <div class="fields-row">
-          <app-form-field label="Descrição:" [fullWidth]="true">
-            <input
-              type="text"
-              [ngModel]="descriptionItem()"
-              (ngModelChange)="descriptionItem.set($event)"
-              placeholder="Ex: Suporte de celular"
-            />
-          </app-form-field>
+        <div class="fields">
+          <div class="fields-row">
+            <app-form-field label="Descrição:" [fullWidth]="true">
+              <input
+                type="text"
+                [ngModel]="descriptionItem()"
+                (ngModelChange)="descriptionItem.set($event)"
+                placeholder="Ex: Suporte de celular"
+              />
+            </app-form-field>
+          </div>
+
+          <div class="fields-row">
+            <app-form-field label="Valor (R$):">
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                [ngModel]="priceItem()"
+                (ngModelChange)="priceItem.set($event)"
+              />
+            </app-form-field>
+
+            <app-form-field label="Quantidade:">
+              <input
+                type="number"
+                min="1"
+                step="1"
+                [ngModel]="quantityItem()"
+                (ngModelChange)="quantityItem.set($event)"
+              />
+            </app-form-field>
+
+            <app-form-field label="Observação:">
+              <input
+                type="text"
+                [ngModel]="observationsItem()"
+                (ngModelChange)="observationsItem.set($event)"
+                placeholder="Opcional"
+              />
+            </app-form-field>
+          </div>
+
+          <app-button variant="outline" [disabled]="!canAddItem()" (clicked)="handleAddItem()">
+            + Adicionar ao pedido
+          </app-button>
         </div>
-
-        <div class="fields-row">
-          <app-form-field label="Valor (R$):">
-            <input
-              type="number"
-              min="0"
-              step="0.01"
-              [ngModel]="priceItem()"
-              (ngModelChange)="priceItem.set($event)"
-            />
-          </app-form-field>
-
-          <app-form-field label="Quantidade:">
-            <input
-              type="number"
-              min="1"
-              step="1"
-              [ngModel]="quantityItem()"
-              (ngModelChange)="quantityItem.set($event)"
-            />
-          </app-form-field>
-
-          <app-form-field label="Observação:">
-            <input
-              type="text"
-              [ngModel]="observationsItem()"
-              (ngModelChange)="observationsItem.set($event)"
-              placeholder="Opcional"
-            />
-          </app-form-field>
-        </div>
-
-        <app-button variant="outline" [disabled]="!canAddItem()" (clicked)="handleAddItem()">
-          + Adicionar ao pedido
-        </app-button>
 
         <div class="itens-wrapper">
           <app-order-items [items]="items()" (removeItem)="handleRemoveItem($event)" />

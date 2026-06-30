@@ -1,4 +1,9 @@
 <label class="checkbox-field">
   <ng-content />
-  {{ label() }}
+  <span class="checkbox-field-text">
+    {{ label() }}
+    @if (description()) {
+      <span class="checkbox-field-description">{{ description() }}</span>
+    }
+  </span>
 </label>

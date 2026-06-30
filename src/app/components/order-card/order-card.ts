@@ -35,4 +35,12 @@ export class OrderCard {
   readonly handleClick = (): void => {
     this.selected.emit(this.order());
   };
+
+  readonly checkedLabel = computed(() => {
+    const items = this.order().items;
+    const checked = items.filter((i) => i.isChecked).length;
+    return `${checked}/${items.length}`;
+  });
+
+  readonly allChecked = computed(() => this.order().items.every((i) => i.isChecked));
 }

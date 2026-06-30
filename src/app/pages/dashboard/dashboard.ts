@@ -13,7 +13,7 @@ import {
 } from '../../helpers/order.helpers';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
-import { OrderDetailsModal } from '../../components/order-details-modal/order-details-modal';
+import { ItemCheckEvent, OrderDetailsModal } from '../../components/order-details-modal/order-details-modal';
 
 @Component({
   selector: 'app-dashboard',
@@ -84,5 +84,36 @@ export class Dashboard implements OnInit {
 
   readonly closeOrderDetails = (): void => {
     this.selectedOrder.set(null);
+  };
+
+  readonly handleItemChecked = async (event: ItemCheckEvent): Promise<void> => {
+    const { itemId, isChecked } = event;
+
+    // Atualiza o signal localmente (otimista, sem reload)
+    const updatedColumns = { ...this.columns() };
+
+    for (const status in updatedColumns) {
+      updatedColumns[status as OrderStatus] = updatedColumns[status as OrderStatus].map((order) => {
+        const hasItem = order.items.some((i) => i.id === itemId);
+        if (!hasItem) return order;
+
+        return {
+          ...order,
+          items: order.items.map((i) => (i.id === itemId ? { ...i, isChecked } : i)),
+        };
+      });
+    }
+
+    this.columns.set(updatedColumns);
+
+    // Se o pedido selecionado for o mesmo, atualiza ele também
+    const selected = this.selectedOrder();
+    if (selected) {
+      const updatedItems = selected.items.map((i) => (i.id === itemId ? { ...i, isChecked } : i));
+      this.selectedOrder.set({ ...selected, items: updatedItems });
+    }
+
+    // Persiste no banco
+    await this.orderService.toggleItemCheck(itemId, isChecked);
   };
 }

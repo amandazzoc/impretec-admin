@@ -3,7 +3,9 @@
 
   <div class="order-meta">
     <span class="order-deadline">{{ deadlineFormatted() }}</span>
-    <span class="order-items-count">{{ itemsLabel() }}</span>
+    <span class="order-checked-count" [class.all-done]="allChecked()">
+      {{ checkedLabel() }}
+    </span>
   </div>
 
   <p class="order-total">{{ totalFormatted() }}</p>

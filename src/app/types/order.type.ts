@@ -7,6 +7,7 @@ export type OrderItem = {
   price: number;
   quantity: number;
   observations: string | null;
+  isChecked: boolean;
 };
 
 export type Order = {

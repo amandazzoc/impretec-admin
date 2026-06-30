@@ -87,4 +87,13 @@ export class OrderService {
 
     return order;
   };
+
+  readonly toggleItemCheck = async (itemId: string, isChecked: boolean): Promise<boolean> => {
+    const { error } = await supabase
+      .from(ORDER_ITEMS_TABLE)
+      .update({ is_checked: isChecked })
+      .eq('id', itemId);
+
+    return !error;
+  };
 }

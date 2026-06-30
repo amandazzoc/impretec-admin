@@ -45,7 +45,7 @@
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 10px 14px;
-
+  
   .item-description {
     margin: 0;
     font-size: 0.85rem;
@@ -68,6 +68,16 @@
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--accent-green);
+  }
+}
+
+.item-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  
+  .checkbox-field[_ngcontent-ng-c548499054] {
+    margin-bottom: 0 !important;
   }
 }
 

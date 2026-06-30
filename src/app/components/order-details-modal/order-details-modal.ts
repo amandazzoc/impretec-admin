@@ -8,17 +8,24 @@ import {
   formatDate,
   formatOrderStatus,
 } from '../../helpers/order.helpers';
+import { CheckboxField } from '../checkbox-field/checkbox-field';
+
+export type ItemCheckEvent = {
+  itemId: string;
+  isChecked: boolean;
+};
 
 @Component({
   selector: 'app-order-details-modal',
   standalone: true,
-  imports: [Modal],
+  imports: [Modal, CheckboxField],
   templateUrl: './order-details-modal.html',
   styleUrl: './order-details-modal.scss',
 })
 export class OrderDetailsModal {
   readonly order = input.required<Order>();
   readonly closed = output<void>();
+  readonly itemChecked = output<ItemCheckEvent>();
 
   readonly statusLabel = computed(() => {
     const label = formatOrderStatus(this.order().status);
@@ -48,5 +55,10 @@ export class OrderDetailsModal {
     const formatted = formatCurrency(subtotal);
 
     return formatted;
+  };
+
+  readonly handleItemCheck = (item: OrderItem, event: Event): void => {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    this.itemChecked.emit({ itemId: item.id, isChecked });
   };
 }

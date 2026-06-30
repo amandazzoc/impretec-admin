@@ -8,4 +8,5 @@ import { Component, input } from '@angular/core';
 })
 export class CheckboxField {
   readonly label = input.required<string>();
+  readonly description = input<string | null>(null);
 }
