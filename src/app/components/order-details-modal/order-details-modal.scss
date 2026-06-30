@@ -9,9 +9,9 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  flex: 1; /* Faz a seção de infos ocupar o espaço restante */
-  padding-right: 16px; /* Dá um respiro para o texto não encostar no botão */
-  margin-bottom: 0; /* Removido pois o gap já está no .details-header */
+  flex: 1;
+  padding-right: 16px; 
+  margin-bottom: 0; 
 }
 
 .icon-btn {
@@ -26,13 +26,12 @@
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  flex-shrink: 0; /* Impede que o botão seja esmagado */
+  flex-shrink: 0;
 }
 
 .icon-btn:hover {
   border-color: var(--accent-green);
   color: var(--accent-green);
-  /* Lembra da dica do color-mix? Fica perfeito em hover de botões no dark mode! */
   background-color: color-mix(in srgb, var(--accent-green) 15%, transparent);
 }
 

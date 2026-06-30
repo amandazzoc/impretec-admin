@@ -77,7 +77,7 @@
     gap: 16px;
     padding: 16px;
     background-color: var(--bg-main);
-    border: 1px solid var(--accent-green); /* Borda verde para destacar a edição */
+    border: 1px solid var(--accent-green);
     border-radius: 8px;
     width: 100%;
   }
@@ -128,7 +128,6 @@
   }
 }
 
-/* Container isolado para não conflitar com a listagem normal */
 .item-edit-card {
   display: flex;
   flex-direction: column;
@@ -141,13 +140,11 @@
   box-sizing: border-box;
 }
 
-/* Força o componente form-field do Angular a usar 100% da sua célula no Grid */
 .item-edit-card app-form-field {
   display: block;
   width: 100%;
 }
 
-/* Força o input a esticar para preencher o form-field */
 .full-input {
   width: 100%;
   box-sizing: border-box;
@@ -156,7 +153,7 @@
 .item-edit-fields {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Maior espaçamento entre a linha da descrição e a linha de valores */
+  gap: 16px; 
 }
 
 .item-edit-actions {
@@ -171,18 +168,15 @@
 
 @media (max-width: 500px) {
   .item-row {
-    /* Muda para 3 colunas base no mobile */
     grid-template-columns: auto 1fr auto;
-    row-gap: 16px; /* Espaço maior entre os "andares" */
+    row-gap: 16px;
     column-gap: 12px;
   }
 
-  /* Andar de Cima */
   .item-row .item-info {
-    grid-column: 1 / -1; /* Ocupa a linha inteira (da coluna 1 ao final) */
+    grid-column: 1 / -1;
   }
 
-  /* Andar do Meio (Quantidade, Preço, Subtotal) */
   .item-row .item-quantity {
     grid-column: 1;
   }
@@ -193,15 +187,14 @@
 
   .item-row .item-subtotal {
     grid-column: 3;
-    text-align: right; /* Garante que o total fique colado na direita */
+    text-align: right;
   }
 
-  /* Andar de Baixo (Ações) */
   .item-row .item-actions {
-    grid-column: 1 / -1; /* Ocupa a linha inteira */
-    justify-content: flex-end; /* Joga os ícones para a direita */
+    grid-column: 1 / -1;
+    justify-content: flex-end;
     padding-top: 12px;
-    border-top: 1px dashed var(--border-color); /* Linha divisória sutil */
+    border-top: 1px dashed var(--border-color);
     width: 100%;
   }
 }
