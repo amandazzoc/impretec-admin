@@ -6,32 +6,32 @@
   <div class="items-list">
     @for (item of items(); track item.id) {
       @if (editingItemId() === item.id) {
-       <div class="item-row item-row--editing">
-          <div class="item-edit-fields">
-            <app-form-field label="Descrição:" [fullWidth]="true">
-              <input type="text" [ngModel]="editDescription()" (ngModelChange)="editDescription.set($event)" />
+       <div class="item-edit-card">
+        <div class="item-edit-fields">
+          <app-form-field label="Descrição:" [fullWidth]="true">
+            <input class="full-input" type="text" [ngModel]="editDescription()" (ngModelChange)="editDescription.set($event)" />
+          </app-form-field>
+
+          <div class="fields-grid">
+            <app-form-field label="Valor (R$):">
+              <input class="full-input" type="number" min="0" step="0.01" [ngModel]="editPrice()" (ngModelChange)="editPrice.set($event)" />
             </app-form-field>
 
-            <div class="fields-grid">
-              <app-form-field label="Valor (R$):">
-                <input type="number" min="0" step="0.01" [ngModel]="editPrice()" (ngModelChange)="editPrice.set($event)" />
-              </app-form-field>
+            <app-form-field label="Qtd:">
+              <input class="full-input" type="number" min="1" step="1" [ngModel]="editQuantity()" (ngModelChange)="editQuantity.set($event)" />
+            </app-form-field>
 
-              <app-form-field label="Qtd:">
-                <input type="number" min="1" step="1" [ngModel]="editQuantity()" (ngModelChange)="editQuantity.set($event)" />
-              </app-form-field>
-
-              <app-form-field label="Observação:">
-                <input type="text" [ngModel]="editObservations()" (ngModelChange)="editObservations.set($event)" placeholder="Opcional" />
-              </app-form-field>
-            </div>
-          </div>
-
-          <div class="item-edit-actions">
-            <app-button variant="outline" (clicked)="handleCancelEdit()">Cancelar</app-button>
-            <app-button (clicked)="handleSaveEdit(item.id)" [disabled]="!canSaveEdit()">Salvar</app-button>
+            <app-form-field label="Observação:">
+              <input class="full-input" type="text" [ngModel]="editObservations()" (ngModelChange)="editObservations.set($event)" placeholder="Opcional" />
+            </app-form-field>
           </div>
         </div>
+
+        <div class="item-edit-actions">
+          <app-button variant="outline" (clicked)="handleCancelEdit()">Cancelar</app-button>
+          <app-button (clicked)="handleSaveEdit(item.id)" [disabled]="!canSaveEdit()">Salvar</app-button>
+        </div>
+      </div>
       } @else {
         <div class="item-row">
           <div class="item-info">

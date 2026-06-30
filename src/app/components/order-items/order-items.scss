@@ -76,21 +76,30 @@
     color: #ff5c5c;
   }
 
-  .item-row--editing {
-    display: flex; /* Muda de grid para flex no modo de edição */
+  .item-row.item-row--editing {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
     padding: 16px;
-    /* Destaca a linha que está sendo editada */
     background-color: var(--bg-main);
-    border-color: var(--accent-green);
+    border: 1px solid var(--accent-green); /* Borda verde para destacar a edição */
+    border-radius: 8px;
+    width: 100%;
   }
 
   .item-edit-fields {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
+  }
+  .fields-grid {
+    display: grid;
+    /* Usamos frações (fr) em vez de px fixos para evitar a barra de rolagem horizontal */
+    grid-template-columns: 1fr 0.8fr 1.5fr; 
+    gap: 12px;
+    width: 100%;
   }
 
   .item-edit-actions {
@@ -130,4 +139,53 @@
       color: #ff5c5c;
     }
   }
+}
+
+/* Container isolado para não conflitar com a listagem normal */
+.item-edit-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--bg-main);
+  border: 1px solid var(--accent-green);
+  border-radius: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Força o componente form-field do Angular a usar 100% da sua célula no Grid */
+.item-edit-card app-form-field {
+  display: block;
+  width: 100%;
+}
+
+/* Força o input a esticar para preencher o form-field */
+.full-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.item-edit-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* Maior espaçamento entre a linha da descrição e a linha de valores */
+}
+
+.fields-grid {
+  display: grid;
+  /* minmax garante que eles nunca vão encolher e virar um quadrado minúsculo */
+  grid-template-columns: minmax(90px, 1fr) minmax(70px, 0.8fr) minmax(120px, 2fr); 
+  gap: 16px;
+  width: 100%;
+}
+
+.item-edit-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border-color);
+  width: 100%;
 }
