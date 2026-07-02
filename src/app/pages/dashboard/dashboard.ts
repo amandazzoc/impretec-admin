@@ -75,7 +75,7 @@ export class Dashboard implements OnInit {
     const map = new Map<string, number>();
 
     for (const order of this.completedOrders()) {
-      const date = new Date(order.createdAt);
+      const date = new Date(order.deadline);
       const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       map.set(key, (map.get(key) ?? 0) + calculateTotalPrice(order.items));
     }
