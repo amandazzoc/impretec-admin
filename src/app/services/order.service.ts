@@ -12,14 +12,16 @@ const SELECT_WITH_ITEMS = "*, order_items(*)";
 })
 export class OrderService {
   readonly getOrders = async (): Promise<OrderModel[]> => {
+    const now = new Date();
+    const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+
     const { data, error } = await supabase
       .from(ORDERS_TABLE)
       .select(SELECT_WITH_ITEMS)
+      .or(`status.not.in.(delivered,cancelled),created_at.gte.${startOfCurrentMonth}`)
       .order('created_at', { ascending: false });
 
-    const orders = error ? [] : data.map(mapOrderRowToOrder);
-
-    return orders;
+    return error ? [] : data.map(mapOrderRowToOrder);
   };
 
   readonly getOrderById = async (id: string): Promise<OrderModel | null> => {
@@ -113,5 +115,19 @@ export class OrderService {
       .eq('id', orderId);
 
     return !error;
+  };
+
+  readonly getArchivedOrders = async (): Promise<OrderModel[]> => {
+    const now = new Date();
+    const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
+
+    const { data, error } = await supabase
+      .from(ORDERS_TABLE)
+      .select(SELECT_WITH_ITEMS)
+      .in('status', ['delivered', 'cancelled'])
+      .lt('created_at', startOfCurrentMonth)
+      .order('created_at', { ascending: false });
+
+    return error ? [] : data.map(mapOrderRowToOrder);
   };
 }

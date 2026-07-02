@@ -19,11 +19,12 @@ import {
 } from '../../helpers/order.helpers';
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [DragDropModule, KanbanColumn, OrderDetailsModal, OrderEditModal],
+  imports: [DragDropModule, KanbanColumn, OrderDetailsModal, OrderEditModal, RouterLink],
   templateUrl: './kanban.html',
   styleUrl: './kanban.scss',
 })
@@ -176,7 +177,7 @@ export class Kanban implements OnInit {
       );
     }
     this.columns.set(updatedColumns);
-    
+
     const selected = this.selectedOrder();
     if (selected?.id === orderId) {
       this.selectedOrder.set({ ...selected, amountPaid });
