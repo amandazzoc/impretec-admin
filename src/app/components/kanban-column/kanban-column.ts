@@ -17,6 +17,7 @@ export class KanbanColumn {
   readonly orders = input.required<Order[]>();
   readonly dropped = output<CdkDragDrop<Order[]>>();
   readonly orderSelected = output<Order>();
+  readonly canWrite = input<boolean>(true);
 
   readonly totalFormatted = computed(() => {
     const total = calculateColumnTotal(this.orders());

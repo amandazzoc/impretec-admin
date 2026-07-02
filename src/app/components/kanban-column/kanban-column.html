@@ -12,9 +12,10 @@
     [id]="status()"
     [cdkDropListData]="orders()"
     (cdkDropListDropped)="handleDrop($event)"
+    [cdkDropListDisabled]="!canWrite()"
   >
     @for (order of orders(); track order.id) {
-      <div cdkDrag [cdkDragData]="order" class="drag-item">
+      <div cdkDrag [cdkDragData]="order" [cdkDragDisabled]="!canWrite()" class="drag-item">
         <app-order-card [order]="order" (selected)="handleOrderSelected($event)" />
       </div>
     }

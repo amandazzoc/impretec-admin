@@ -59,6 +59,7 @@
           [label]="column.label"
           [status]="column.status"
           [orders]="filteredColumns()[column.status]"
+          [canWrite]="authService.isLoggedIn()"
           (dropped)="handleDrop($event)"
           (orderSelected)="handleOrderSelected($event)"
         />

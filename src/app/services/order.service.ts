@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { NewOrder, Order as OrderModel, OrderStatus } from '../types/order.type';
 import { supabase } from './supabase.client';
 import { mapNewOrderItemToOrderItemRow, mapNewOrderToOrderRow, mapOrderRowToOrder } from './order.helpers';
+import { AuthService } from './auth.service';
 
 const ORDERS_TABLE = 'orders';
 const ORDER_ITEMS_TABLE = 'order_items';
@@ -11,6 +12,10 @@ const SELECT_WITH_ITEMS = "*, order_items(*)";
   providedIn: 'root',
 })
 export class OrderService {
+  private readonly authService = inject(AuthService);
+
+  private readonly canWrite = (): boolean => this.authService.isLoggedIn();
+
   readonly getOrders = async (): Promise<OrderModel[]> => {
     const now = new Date();
     const startOfCurrentMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();
@@ -46,6 +51,8 @@ export class OrderService {
   };
 
   readonly createOrder = async (newOrder: NewOrder): Promise<OrderModel | null> => {
+    if (!this.canWrite()) return null;
+
     const orderRow = mapNewOrderToOrderRow(newOrder);
 
     const { data: createdOrder, error: orderError } = await supabase
@@ -66,6 +73,8 @@ export class OrderService {
   };
 
   readonly updateOrder = async (id: string, updatedOrder: NewOrder): Promise<OrderModel | null> => {
+     if (!this.canWrite()) return null;
+
     const orderRow = mapNewOrderToOrderRow(updatedOrder);
 
     const { error: orderError } = await supabase.from(ORDERS_TABLE).update(orderRow).eq('id', id);
@@ -83,6 +92,8 @@ export class OrderService {
   };
 
   readonly deleteOrder = async (id: string): Promise<boolean> => {
+    if (!this.canWrite()) return false;
+
     const { error } = await supabase.from(ORDERS_TABLE).delete().eq('id', id);
     const success = !error;
 
@@ -93,6 +104,8 @@ export class OrderService {
     id: string,
     status: OrderStatus,
   ): Promise<OrderModel | null> => {
+    if (!this.canWrite()) return null;
+
     const { error } = await supabase.from(ORDERS_TABLE).update({ status }).eq('id', id);
     const order = error ? null : await this.getOrderById(id);
 
@@ -100,6 +113,8 @@ export class OrderService {
   };
 
   readonly toggleItemCheck = async (itemId: string, isChecked: boolean): Promise<boolean> => {
+    if (!this.canWrite()) return false;
+
     const { error } = await supabase
       .from(ORDER_ITEMS_TABLE)
       .update({ is_checked: isChecked })
@@ -109,6 +124,8 @@ export class OrderService {
   };
 
   readonly checkAllItems = async (orderId: string): Promise<boolean> => {
+    if (!this.canWrite()) return false;
+
     const { error } = await supabase
       .from(ORDER_ITEMS_TABLE)
       .update({ is_checked: true })
@@ -118,6 +135,8 @@ export class OrderService {
   };
 
   readonly updateAmountPaid = async (orderId: string, amountPaid: number): Promise<boolean> => {
+    if (!this.canWrite()) return false;
+  
     const { error } = await supabase
       .from(ORDERS_TABLE)
       .update({ amount_paid: amountPaid })

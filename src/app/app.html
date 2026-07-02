@@ -1,3 +1,7 @@
+@if (!authService.isLoggedIn()) {
+  <app-read-only-banner />
+}
+
 <div class="app-layout">
   <app-sidebar></app-sidebar>
 

@@ -20,17 +20,21 @@
     }
   </div>
 
-    <nav class="menu">
-    @for (item of menuItems; track item.route) {
-        <a [routerLink]="item.route" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
-            <span class="menu-icon">
-                <ng-container *ngComponentOutlet="item.icon; inputs: { size: 20 }"></ng-container>
-            </span>
+  <nav class="menu">
+  @for (item of menuItems; track item.route) {
+      <a [routerLink]="item.route" routerLinkActive="active" class="menu-item" (click)="closeSidebar()">
+          <span class="menu-icon">
+              <ng-container *ngComponentOutlet="item.icon; inputs: { size: 20 }"></ng-container>
+          </span>
 
-            <span class="menu-label">{{ item.label }}</span>
-        </a>
-    }
-    </nav>
+          <span class="menu-label">{{ item.label }}</span>
+      </a>
+  }
+  </nav>
+
+  @if (authService.isLoggedIn()) {
+    <button class="logout-btn" (click)="handleLogout()">Sair</button>
+  }
 
   <button
     type="button"

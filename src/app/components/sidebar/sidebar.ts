@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, signal, Type } from '@angular/core';
+import { Component, inject, signal, Type } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   LucideCalculator,
@@ -7,6 +7,7 @@ import {
   LucideLayoutDashboard, 
   LucideSquareKanban 
 } from '@lucide/angular';
+import { AuthService } from '../../services/auth.service';
 
 export type MenuItem = {
   label: string;
@@ -32,6 +33,11 @@ export class Sidebar {
   readonly menuItems = MENU_ITEMS;
   readonly isOpen = signal(false);
   readonly isCollapsed = signal(false);
+  readonly authService = inject(AuthService);
+
+  readonly handleLogout = async (): Promise<void> => {
+    await this.authService.signOut();
+  };
 
   readonly toggleSidebar = () => {
     this.isOpen.update((isOpen) => !isOpen);

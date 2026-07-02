@@ -21,6 +21,7 @@ import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-kanban',
@@ -47,6 +48,8 @@ export class Kanban implements OnInit {
   readonly editingOrder = signal<Order | null>(null);
 
   readonly searchName = signal('');
+
+  readonly authService = inject(AuthService);
 
   ngOnInit(): void {
     this.loadOrders();

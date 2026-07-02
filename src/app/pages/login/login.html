@@ -1,0 +1,50 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="login-header">
+      <h1 class="login-title">Entrar</h1>
+      <p class="login-subtitle">Acesse para gerenciar seus pedidos</p>
+    </div>
+
+    <div class="login-fields">
+      <div class="login-field">
+        <label class="login-label">Email</label>
+        <input
+          type="email"
+          class="login-input"
+          placeholder="seu@email.com"
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          (keyup.enter)="handleSubmit()"
+        />
+      </div>
+
+      <div class="login-field">
+        <label class="login-label">Senha</label>
+        <input
+          type="password"
+          class="login-input"
+          placeholder="••••••••"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          (keyup.enter)="handleSubmit()"
+        />
+      </div>
+
+      @if (error()) {
+        <p class="login-error">{{ error() }}</p>
+      }
+
+      <button
+        class="login-btn"
+        [disabled]="isLoading() || !email() || !password()"
+        (click)="handleSubmit()"
+      >
+        @if (isLoading()) {
+          Entrando...
+        } @else {
+          Entrar
+        }
+      </button>
+    </div>
+  </div>
+</div>
