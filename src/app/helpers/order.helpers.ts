@@ -9,6 +9,7 @@ export const STATUS_COLUMNS: StatusColumnConfig[] = [
   { status: 'pending', label: 'Pendente' },
   { status: 'processing', label: 'Em andamento' },
   { status: 'completed', label: 'Concluído' },
+  { status: 'delivered', label: 'Entregue' },
   { status: 'cancelled', label: 'Cancelado' },
 ];
 

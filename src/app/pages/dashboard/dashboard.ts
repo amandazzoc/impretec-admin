@@ -28,7 +28,7 @@ export class Dashboard implements OnInit {
   readonly orders = signal<Order[]>([]);
   readonly isLoading = signal(true);
 
-  readonly completedOrders = computed(() => this.orders().filter((o) => o.status === 'completed'));
+  readonly completedOrders = computed(() => this.orders().filter((o) => o.status === 'delivered'));
 
   readonly openOrders = computed(() =>
     this.orders().filter((o) => o.status === 'pending' || o.status === 'processing'),
@@ -63,6 +63,7 @@ export class Dashboard implements OnInit {
       { label: 'Pendente', status: 'pending', color: '#f59e0b' },
       { label: 'Em andamento', status: 'processing', color: '#3b82f6' },
       { label: 'Concluído', status: 'completed', color: '#22c55e' },
+      { label: 'Entregue', status: 'delivered', color: '#8b5cf6' },
       { label: 'Cancelado', status: 'cancelled', color: '#ef4444' },
     ].map((s) => ({
       ...s,

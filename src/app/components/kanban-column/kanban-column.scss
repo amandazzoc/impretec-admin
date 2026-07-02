@@ -47,6 +47,8 @@
   gap: 10px;
   min-height: 80px;
   flex: 1;
+  max-height: 400px;
+  overflow-y: auto;
 }
 
 .empty-column {

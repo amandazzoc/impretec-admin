@@ -67,19 +67,34 @@ export class Kanban implements OnInit {
     const previousStatus = event.previousContainer.id as OrderStatus;
     const currentStatus = event.container.id as OrderStatus;
 
+    const movedOrder = event.item.data as Order;
+    const shouldUpdateStatus = !isSameContainer;
+
+    const shouldCheckAllItems =
+      shouldUpdateStatus && (currentStatus === 'completed' || currentStatus === 'delivered');
+
+    const updatedMovedOrder: Order = shouldCheckAllItems
+      ? { ...movedOrder, items: movedOrder.items.map((i) => ({ ...i, isChecked: true })) }
+      : movedOrder;
+
+    const updatedDestData = event.container.data.map((o) =>
+      o.id === movedOrder.id ? updatedMovedOrder : o,
+    );
+
     const refreshedColumns = {
       ...this.columns(),
       [previousStatus]: [...event.previousContainer.data],
-      [currentStatus]: [...event.container.data],
+      [currentStatus]: updatedDestData,
     };
 
     this.columns.set(refreshedColumns);
 
-    const movedOrder = event.item.data as Order;
-    const shouldUpdateStatus = !isSameContainer;
-
     if (shouldUpdateStatus) {
       await this.orderService.updateOrderStatus(movedOrder.id, currentStatus);
+    }
+
+    if (shouldCheckAllItems) {
+      await this.orderService.checkAllItems(movedOrder.id);
     }
   };
 

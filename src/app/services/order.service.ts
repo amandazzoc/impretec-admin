@@ -96,4 +96,13 @@ export class OrderService {
 
     return !error;
   };
+
+  readonly checkAllItems = async (orderId: string): Promise<boolean> => {
+    const { error } = await supabase
+      .from(ORDER_ITEMS_TABLE)
+      .update({ is_checked: true })
+      .eq('order_id', orderId);
+
+    return !error;
+  };
 }
