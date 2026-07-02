@@ -4,7 +4,7 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { KanbanColumn } from '../../components/kanban-column/kanban-column';
 import {
   AmountPaidEvent,
@@ -20,11 +20,19 @@ import {
 import { OrderService } from '../../services/order.service';
 import { Order, OrderStatus } from '../../types/order.type';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-kanban',
   standalone: true,
-  imports: [DragDropModule, KanbanColumn, OrderDetailsModal, OrderEditModal, RouterLink],
+  imports: [
+    DragDropModule,
+    KanbanColumn,
+    OrderDetailsModal,
+    OrderEditModal,
+    RouterLink,
+    FormsModule,
+  ],
   templateUrl: './kanban.html',
   styleUrl: './kanban.scss',
 })
@@ -37,6 +45,8 @@ export class Kanban implements OnInit {
 
   readonly selectedOrder = signal<Order | null>(null);
   readonly editingOrder = signal<Order | null>(null);
+
+  readonly searchName = signal('');
 
   ngOnInit(): void {
     this.loadOrders();
@@ -185,4 +195,19 @@ export class Kanban implements OnInit {
 
     await this.orderService.updateAmountPaid(orderId, amountPaid);
   };
+
+  readonly filteredColumns = computed(() => {
+    const name = this.searchName().toLowerCase().trim();
+    if (!name) return this.columns();
+
+    const filtered: Record<OrderStatus, Order[]> = {} as Record<OrderStatus, Order[]>;
+
+    for (const status in this.columns()) {
+      filtered[status as OrderStatus] = this.columns()[status as OrderStatus].filter((order) =>
+        order.clientName.toLowerCase().includes(name),
+      );
+    }
+
+    return filtered;
+  });
 }

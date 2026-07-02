@@ -24,6 +24,15 @@ export class OrderService {
     return error ? [] : data.map(mapOrderRowToOrder);
   };
 
+  readonly getAllOrders = async (): Promise<OrderModel[]> => {
+    const { data, error } = await supabase
+      .from(ORDERS_TABLE)
+      .select(SELECT_WITH_ITEMS)
+      .order('created_at', { ascending: false });
+
+    return error ? [] : data.map(mapOrderRowToOrder);
+  };
+
   readonly getOrderById = async (id: string): Promise<OrderModel | null> => {
     const { data, error } = await supabase
       .from(ORDERS_TABLE)

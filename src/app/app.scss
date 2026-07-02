@@ -20,6 +20,14 @@
 .content-wrapper {
   padding: 32px;
   color: var(--text-primary);
+
+  @media (max-width: 900px) {
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
 }
 
 .page-header {
@@ -27,6 +35,86 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 24px;
+  gap: 16px;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+
+    .search-field {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      @media (max-width: 600px) {
+        flex: 1;
+      }
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      color: var(--text-secondary);
+      pointer-events: none;
+    }
+
+    .search-input {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 32px 8px 32px;
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      outline: none;
+      width: 200px;
+      transition: border-color 0.15s, width 0.2s;
+
+      &:focus {
+        border-color: var(--accent-green);
+        width: 240px;
+      }
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 600px) {
+        width: 100%;
+
+        &:focus {
+          width: 100%;
+        }
+      }
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 8px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0 2px;
+      line-height: 1;
+
+      &:hover {
+        color: var(--text-primary);
+      }
+    }
+  }
 
   .page-header-main {
     display: flex;
@@ -53,18 +141,33 @@
       border-color: var(--text-secondary);
       color: var(--text-primary);
     }
+
+    @media (max-width: 600px) {
+      padding: 8px;
+
+      span { display: none; }
+    }
   }
 
   h1 {
     margin: 0;
     font-size: 1.6rem;
     font-weight: 700;
+
+    @media (max-width: 480px) {
+      font-size: 1.3rem;
+    }
   }
 
   p {
     margin: 6px 0 0;
     font-size: 0.9rem;
     color: var(--text-secondary);
+
+    @media (max-width: 480px) {
+      font-size: 0.82rem;
+      margin: 4px 0 0;
+    }
   }
 }
 

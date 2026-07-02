@@ -121,7 +121,7 @@ export class Dashboard implements OnInit {
 
   readonly loadOrders = async (): Promise<void> => {
     this.isLoading.set(true);
-    const orders = await this.orderService.getOrders();
+    const orders = await this.orderService.getAllOrders();
     this.orders.set(orders);
     this.isLoading.set(false);
   };
