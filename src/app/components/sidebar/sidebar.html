@@ -9,7 +9,7 @@
 
 <div class="sidebar-overlay" [class.visible]="isOpen()" (click)="closeSidebar()"></div>
 
-<aside class="sidebar" [class.open]="isOpen()" [class.collapsed]="isCollapsed()">
+<aside class="sidebar" [style.height]="authService.isLoggedIn() ? '100vh' : 'calc(100vh - 41px)'" [class.open]="isOpen()" [class.collapsed]="isCollapsed()">
   <div class="logo-container">
     @if (!isCollapsed()) {
       <h2>ImpreTEC</h2>

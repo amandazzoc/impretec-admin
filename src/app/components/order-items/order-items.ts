@@ -4,6 +4,7 @@ import { DraftOrderItem } from '../../types/order.type';
 import { calculateItemSubtotal, formatCurrency, isFormValid } from '../../helpers/order.helpers';
 import { FormField } from '../form-field/form-field';
 import { Button } from '../button/button';
+import { CurrencyMaskPipe } from "../../pipes/currency-mask.pipe";
 
 export type EditItemEvent = {
   itemId: string;
@@ -13,7 +14,7 @@ export type EditItemEvent = {
 @Component({
   selector: 'app-order-items',
   standalone: true,
-  imports: [FormsModule, FormField, Button],
+  imports: [FormsModule, FormField, Button, CurrencyMaskPipe],
   templateUrl: './order-items.html',
   styleUrl: './order-items.scss',
 })

@@ -23,3 +23,15 @@ body {
 * {
   box-sizing: inherit;
 }
+
+:root {
+  --banner-height: 0px;
+}
+
+.has-banner {
+  --banner-height: 41px; // altura do banner
+}
+
+.sidebar {
+  height: calc(100vh - var(--banner-height));
+}

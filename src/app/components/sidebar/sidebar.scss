@@ -57,7 +57,7 @@
 
 .sidebar {
   width: 260px;
-  height: 93vh;
+  height: 100vh;
   background-color: var(--bg-main);
   border-right: 1px solid var(--border-color);
   display: flex;
@@ -233,4 +233,48 @@
 .menu-icon svg { 
    width: 20px; 
    height: 20px; 
+}
+
+.logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% - 32px); // mesma lógica do padding do .menu (0 16px)
+  margin: 0 16px;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &::before {
+    content: '→';
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    background-color: color-mix(in srgb, #ef4444 10%, transparent);
+    color: #ef4444;
+  }
+
+  // Quando collapsed, centraliza igual ao menu-item
+  .collapsed & {
+    justify-content: center;
+    padding: 12px;
+
+    // Esconde o texto, mantém só o ícone (→)
+    font-size: 0;
+
+    &::before {
+      font-size: 1rem;
+    }
+  }
 }
