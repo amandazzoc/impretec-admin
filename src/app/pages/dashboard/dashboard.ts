@@ -4,7 +4,6 @@ import { Order } from '../../types/order.type';
 import { SummaryCard } from '../../components/summary-card/summary-card';
 import { Card } from '../../components/card/card';
 import { calculateTotalPrice, formatCurrency } from '../../helpers/order.helpers';
-import { CurrencyMaskPipe } from "../../pipes/currency-mask.pipe";
 
 type MonthlyRevenue = {
   month: string;
@@ -19,7 +18,7 @@ type TopItem = {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [SummaryCard, Card, CurrencyMaskPipe],
+  imports: [SummaryCard, Card],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
