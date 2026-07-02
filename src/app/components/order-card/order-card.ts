@@ -1,6 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
-import { Order } from '../../types/order.type';
-import { calculateTotalPrice, formatCurrency, formatDate } from '../../helpers/order.helpers';
+import { Order, PaymentStatus } from '../../types/order.type';
+import { calculateTotalPrice, formatCurrency, formatDate, getPaymentStatus } from '../../helpers/order.helpers';
 
 @Component({
   selector: 'app-order-card',
@@ -43,4 +43,16 @@ export class OrderCard {
   });
 
   readonly allChecked = computed(() => this.order().items.every((i) => i.isChecked));
+
+  readonly paymentStatus = computed((): PaymentStatus => {
+    const total = calculateTotalPrice(this.order().items);
+    return getPaymentStatus(this.order().amountPaid, total);
+  });
+
+  readonly paymentLabel = computed((): string => {
+    const status = this.paymentStatus();
+    if (status === 'paid') return 'Pago';
+    if (status === 'partial') return 'Pago parcialmente';
+    return 'Não pago';
+  });
 }

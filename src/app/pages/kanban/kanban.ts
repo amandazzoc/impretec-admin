@@ -7,6 +7,7 @@ import {
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { KanbanColumn } from '../../components/kanban-column/kanban-column';
 import {
+  AmountPaidEvent,
   ItemCheckEvent,
   OrderDetailsModal,
 } from '../../components/order-details-modal/order-details-modal';
@@ -163,5 +164,24 @@ export class Kanban implements OnInit {
 
     this.columns.set(updatedColumns);
     this.editingOrder.set(null);
+  };
+
+  readonly handleAmountPaidChanged = async (event: AmountPaidEvent): Promise<void> => {
+    const { orderId, amountPaid } = event;
+
+    const updatedColumns = { ...this.columns() };
+    for (const status in updatedColumns) {
+      updatedColumns[status as OrderStatus] = updatedColumns[status as OrderStatus].map((o) =>
+        o.id === orderId ? { ...o, amountPaid } : o,
+      );
+    }
+    this.columns.set(updatedColumns);
+    
+    const selected = this.selectedOrder();
+    if (selected?.id === orderId) {
+      this.selectedOrder.set({ ...selected, amountPaid });
+    }
+
+    await this.orderService.updateAmountPaid(orderId, amountPaid);
   };
 }

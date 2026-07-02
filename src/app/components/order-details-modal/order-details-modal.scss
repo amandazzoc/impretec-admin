@@ -129,3 +129,95 @@
   border-top: 1px solid var(--border-color);
   margin-top: 4px;
 }
+
+.payment-section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.payment-bar-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.payment-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.payment-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--border-color);
+  transition: width 0.3s ease, background 0.3s ease;
+  width: 0%;
+
+  &--partial { background: #f59e0b; }
+  &--paid    { background: var(--accent-green); }
+}
+
+.payment-percentage {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 32px;
+  text-align: right;
+}
+
+.payment-amounts {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.payment-paid {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.payment-remaining {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.payment-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.payment-btn {
+  flex: 1;
+  padding: 8px 0;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-main);
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+
+  &:hover {
+    border-color: var(--text-secondary);
+    color: var(--text-primary);
+  }
+
+  &.active {
+    background: var(--bg-surface);
+    border-color: var(--text-primary);
+    color: var(--text-primary);
+  }
+
+  &--paid.active {
+    background: color-mix(in srgb, var(--accent-green) 12%, transparent);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+  }
+}

@@ -16,6 +16,7 @@ type OrderRow = {
   deadline: string;
   status: string;
   created_at: string;
+  amount_paid: number;
   order_items: OrderItemRow[];
 };
 
@@ -41,6 +42,7 @@ export const mapOrderRowToOrder = (row: OrderRow): Order => {
     deadline: row.deadline,
     status: row.status as OrderStatus,
     createdAt: row.created_at,
+    amountPaid: row.amount_paid,
     items,
   };
 
@@ -51,6 +53,7 @@ export const mapNewOrderToOrderRow = (newOrder: NewOrder) => {
   const row = {
     client_name: newOrder.clientName,
     deadline: newOrder.deadline,
+    amount_paid: 0,
   };
 
   return row;

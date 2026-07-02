@@ -46,4 +46,51 @@
     }
   </div>
 
+  <div class="payment-section">
+    <h3 class="details-subtitle">Pagamento</h3>
+
+    <div class="payment-bar-wrapper">
+      <div class="payment-bar-track">
+        <div
+          class="payment-bar-fill"
+          [class.payment-bar-fill--paid]="paymentStatus() === 'paid'"
+          [class.payment-bar-fill--partial]="paymentStatus() === 'partial'"
+          [style.width.%]="paymentPercentage()"
+        ></div>
+      </div>
+      <span class="payment-percentage">{{ paymentPercentage().toFixed(0) }}%</span>
+    </div>
+
+    <div class="payment-amounts">
+      <span class="payment-paid">{{ amountPaidFormatted() }} pagos</span>
+      @if (paymentStatus() !== 'paid') {
+        <span class="payment-remaining">{{ remainingFormatted() }} restantes</span>
+      }
+    </div>
+
+    <div class="payment-actions">
+      <button
+        class="payment-btn"
+        [class.active]="paymentStatus() === 'unpaid'"
+        (click)="handlePaymentSelect(0)"
+      >
+        Não pago
+      </button>
+      <button
+        class="payment-btn"
+        [class.active]="paymentStatus() === 'partial'"
+        (click)="handlePaymentSelect(50)"
+      >
+        50%
+      </button>
+      <button
+        class="payment-btn payment-btn--paid"
+        [class.active]="paymentStatus() === 'paid'"
+        (click)="handlePaymentSelect(100)"
+      >
+        Pago
+      </button>
+    </div>
+  </div>
+
   </app-modal>

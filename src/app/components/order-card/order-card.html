@@ -1,5 +1,24 @@
 <div class="order-card" (click)="handleClick()">
-  <p class="order-client">{{ order().clientName }}</p>
+  <div class="order-card-header">
+    <p class="order-client">{{ order().clientName }}</p>
+    <span class="payment-badge payment-badge--{{ paymentStatus() }}" [title]="paymentLabel()">
+      @if (paymentStatus() === 'paid') {
+        <!-- Cifrão cheio -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15v1h-2v-1c-1.66-.18-3-1.21-3-2.5h2c0 .55.9 1 2 1s2-.45 2-1c0-.61-.68-1-2.33-1.33C9.64 12.83 8 12.05 8 10.5c0-1.29 1.34-2.32 3-2.5V7h2v1c1.66.18 3 1.21 3 2.5h-2c0-.55-.9-1-2-1s-2 .45-2 1c0 .61.68 1 2.33 1.33C14.36 12.17 16 12.95 16 14.5c0 1.29-1.34 2.32-3 2.5z"/>
+        </svg>
+      } @else if (paymentStatus() === 'partial') {
+        <!-- Meio cifrão -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M11 2v20c-5.07-.5-9-4.79-9-10s3.93-9.5 9-10z"/>
+        </svg>
+      } @else {
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      }
+    </span>
+  </div>
 
   <div class="order-meta">
     <span class="order-deadline">{{ deadlineFormatted() }}</span>
@@ -8,5 +27,5 @@
     </span>
   </div>
 
-  <p class="order-total">{{ totalFormatted() }}</p>
+    <p class="order-total">{{ totalFormatted() }}</p>
 </div>

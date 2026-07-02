@@ -1,5 +1,7 @@
 export type OrderStatus = 'pending' | 'processing' | 'completed' | 'delivered' | 'cancelled';
 
+export type PaymentStatus = 'unpaid' | 'partial' | 'paid';
+
 export type OrderItem = {
   id: string;
   orderId: string;
@@ -16,6 +18,7 @@ export type Order = {
   deadline: string;
   status: OrderStatus;
   createdAt: string;
+  amountPaid: number;
   items: OrderItem[];
 };
 

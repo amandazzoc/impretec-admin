@@ -105,4 +105,13 @@ export class OrderService {
 
     return !error;
   };
+
+  readonly updateAmountPaid = async (orderId: string, amountPaid: number): Promise<boolean> => {
+    const { error } = await supabase
+      .from(ORDERS_TABLE)
+      .update({ amount_paid: amountPaid })
+      .eq('id', orderId);
+
+    return !error;
+  };
 }

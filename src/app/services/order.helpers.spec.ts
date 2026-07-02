@@ -1,9 +1,9 @@
-import { describe, it, expect } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
-  mapOrderRowToOrder,
-  mapNewOrderToOrderRow,
-  mapNewOrderItemToOrderItemRow,
   mapItemToNewOrderItem,
+  mapNewOrderItemToOrderItemRow,
+  mapNewOrderToOrderRow,
+  mapOrderRowToOrder,
 } from './order.helpers';
 
 describe('mapOrderRowToOrder', () => {
@@ -14,6 +14,7 @@ describe('mapOrderRowToOrder', () => {
       deadline: '2026-07-01',
       status: 'pending',
       created_at: '2026-06-01T00:00:00Z',
+      amount_paid: 0,
       order_items: [
         {
           id: 'i1',
@@ -22,6 +23,7 @@ describe('mapOrderRowToOrder', () => {
           price: 10,
           quantity: 2,
           observations: null,
+          is_checked: false,
         },
       ],
     };
@@ -40,6 +42,7 @@ describe('mapOrderRowToOrder', () => {
       deadline: '2026-07-01',
       status: 'pending',
       created_at: '2026-06-01T00:00:00Z',
+      amount_paid: 0,
       order_items: undefined as any,
     };
 

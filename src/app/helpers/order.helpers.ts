@@ -1,4 +1,4 @@
-import { DraftOrderItem, Order, OrderStatus } from '../types/order.type';
+import { DraftOrderItem, Order, OrderStatus, PaymentStatus } from '../types/order.type';
 
 export type StatusColumnConfig = {
   status: OrderStatus;
@@ -118,4 +118,10 @@ export const formatCurrency = (value: number): string => {
   }).format(value);
 
   return formatted;
+};
+
+export const getPaymentStatus = (amountPaid: number, total: number): PaymentStatus => {
+  if (amountPaid <= 0) return 'unpaid';
+  if (amountPaid >= total) return 'paid';
+  return 'partial';
 };
